@@ -1,11 +1,9 @@
 package ProjectEcomerce;
 
 import Entidades.Administrador;
-import Entidades.Produto;
+import Entidades.Ecommerce;
 import Entidades.Vendedor;
 
-import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 
 public class Principal {
@@ -13,8 +11,8 @@ public class Principal {
     public static void main(String[] args) {
 
         Ecommerce ecommerce = new Ecommerce();
-        Vendedor vendedor = new Vendedor();
-        Administrador administrador = new Administrador();
+        Vendedor vendedor = new Vendedor(null, null, null);
+        Administrador administrador = new Administrador(null, null, null);
 
         Scanner scanner = new Scanner(System.in);
 
@@ -28,11 +26,12 @@ public class Principal {
                     break;
 
                 case 2:
-                    System.out.print("1.CATEGORIA ou 2.SUBCATEGORIA? ");
+                    System.out.println("1- Categoria\n2- Subcategoria");
                     int categoriaOuSubcategoria = Integer.parseInt(scanner.nextLine());
 
                     if (categoriaOuSubcategoria == 1) {
                         administrador.criaCategoria(ecommerce.getDicionario());
+                        administrador.criaSubcategoria(ecommerce.getDicionario());
                     }
 
                     break;
