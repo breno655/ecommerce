@@ -12,7 +12,6 @@ public class Produto {
         this.preco = preco;
         this.descricao = descricao;
         this.quantidade = quantidade;
-
     }
 
     public String getNome() {
@@ -48,10 +47,10 @@ public class Produto {
     }
 
     public String toString () {
-        return String.format("  Nome: %s\n", nome)
-                + String.format("   Preço: R$%.2f\n", preco)
-                + String.format("   Descrição: %s\n", descricao)
-                + String.format("   Quantidade: %s\n", quantidade);
+        return String.format(" Nome: %s\n", nome)
+                + String.format("      Preço: R$%.2f\n", preco)
+                + String.format("      Descrição: %s\n", descricao)
+                + String.format("      Quantidade: %s\n", quantidade);
     }
 
 }

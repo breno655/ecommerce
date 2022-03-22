@@ -7,14 +7,16 @@ public class Categoria {
 
     private String nome;
     private List<Categoria> subcategorias;
-
-    public void adicionaSubcategoria (Categoria subcategoria) {
-        this.subcategorias.add(subcategoria);
-    }
+    private List<Produto> produtos;
 
     public Categoria (String nome) {
         this.nome = nome;
         this.subcategorias = new ArrayList<>();
+        this.produtos = new ArrayList<>();
+    }
+
+    public void adicionaSubcategoria (Categoria subcategoria) {
+        this.subcategorias.add(subcategoria);
     }
 
     public String getNome() {
@@ -25,8 +27,12 @@ public class Categoria {
         this.nome = nome;
     }
 
-    public String toString () {
-        return String.format("%s\n", nome);
+    public List<Produto> getProdutos() {
+        return produtos;
+    }
+
+    public void setProdutos(List<Produto> produtos) {
+        this.produtos = produtos;
     }
 
     public List<Categoria> getSubcategorias() {

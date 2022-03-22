@@ -2,8 +2,11 @@ package ProjectEcomerce;
 
 import Entidades.Administrador;
 import Entidades.Ecommerce;
+import Entidades.Produto;
 import Entidades.Vendedor;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Principal {
@@ -26,18 +29,50 @@ public class Principal {
                     break;
 
                 case 2:
-                    System.out.println("1- Categoria\n2- Subcategoria");
-                    int categoriaOuSubcategoria = Integer.parseInt(scanner.nextLine());
+                    System.out.println("- Manipulando Categorias e Subcategorias -\n1- CRIAR" +
+                            "\n2- LISTAR\n3- REMOVER\n4- EDITAR");
+                    int opcaoCrudCategoria = Integer.parseInt(scanner.nextLine());
 
-                    if (categoriaOuSubcategoria == 1) {
-                        administrador.criaCategoria(ecommerce.getDicionario());
-                        administrador.criaSubcategoria(ecommerce.getDicionario());
+                    if (opcaoCrudCategoria == 1) {
+                        System.out.println("1- Categoria\n2- Subcategoria");
+                        int categoriaOuSubcategoria = Integer.parseInt(scanner.nextLine());
+
+                        if (categoriaOuSubcategoria == 1) {
+                            administrador.criaCategoria(ecommerce.getDicionario());
+                        }
+                        if (categoriaOuSubcategoria == 2) {
+                            administrador.criaSubcategoria(ecommerce.getDicionario());
+                        }
+                    }
+                    if (opcaoCrudCategoria == 3) {
+                        System.out.println("1- Categoria\n2- Subcategoria");
+                        int categoriaOuSubcategoria = Integer.parseInt(scanner.nextLine());
+
+                        if (categoriaOuSubcategoria == 1) {
+                            administrador.criaCategoria(ecommerce.getDicionario());
+                        }
+                        if (categoriaOuSubcategoria == 2) {
+                            administrador.removerSubcategoria(ecommerce.getDicionario());
+                        }
                     }
 
                     break;
 
                 case 3:
-                    vendedor.adicionaProdutoEmCategoria(ecommerce.getDicionario());
+                    System.out.println("Criando uma lista de produtos...");
+                    List<Produto> produtos = new ArrayList<>();
+                    vendedor.criaProdutos(ecommerce.getDicionario(), produtos);
+
+                    System.out.println("Você quer adicionar os produtos em\n1- Categoria\n2- Subcategoria");
+                    int opcaoAdicionarCategoriaOuSubcategoria = Integer.parseInt(scanner.nextLine());
+
+                    if (opcaoAdicionarCategoriaOuSubcategoria == 1) {
+                        vendedor.adicionaProdutosNaCategoria(ecommerce.getDicionario(), produtos);
+                    }
+                    if (opcaoAdicionarCategoriaOuSubcategoria == 2) {
+                        vendedor.adicionaProdutosNaSubcategoria(ecommerce.getDicionario(), produtos);
+                        ecommerce.imprimirDicionario();
+                    }
                     break;
 
                 case 4:
