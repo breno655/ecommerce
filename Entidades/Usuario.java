@@ -2,14 +2,17 @@ package Entidades;
 
 public class Usuario {
 
-    private String nome;
-    private String login;
-    private String senha;
-    
+    protected String nome;
+    protected String login;
+    protected String senha;
+
     public Usuario (String nome, String login, String senha) {
         this.login = login;
         this.nome = nome;
         this.senha = senha;
+    }
+
+    public Usuario() {
     }
 
     public String getNome() {

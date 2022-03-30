@@ -4,16 +4,39 @@ import java.util.*;
 
 public class Ecommerce {
 
+    Scanner scanner = new Scanner(System.in);
+
     public String nome = "Cyber Feira";
     private Map<Categoria, List<Categoria>> dicionario;
     private List<Produto> produtos;
-    private List<Usuario> usuarios;
+    private Map<String, Usuario> usuarios;
 
     public Ecommerce () {
         this.nome = nome;
         this.dicionario = new HashMap<>();
         this.produtos = new ArrayList<>();
-        this.usuarios = new ArrayList<>();
+        this.usuarios = new HashMap<>();
+    }
+
+    public boolean buscarUsuario (String loginDoUsuario) {
+        boolean encontrado = false;
+        for (String login : usuarios.keySet()) {
+            if (login.equals(loginDoUsuario)) {
+                System.out.println("Encontrado");
+                encontrado = true;
+                break;
+            }
+        } return encontrado;
+    }
+
+    public boolean verficaLogin (String loginDoUsuario, String senhaUsuario) {
+        boolean validado = false;
+        for (Usuario usuario : usuarios.values()) {
+            if (usuario.login.equals(loginDoUsuario) && usuario.senha.equals(senhaUsuario)) {
+                validado = true;
+                break;
+            }
+        } return validado;
     }
 
     public void imprimirDicionario () {
@@ -40,20 +63,19 @@ public class Ecommerce {
         this.dicionario = dicionario;
     }
 
-    public List<Usuario> getUsuarios() {
-        return usuarios;
-    }
-
-    public void setUsuarios(List<Usuario> usuarios) {
-        this.usuarios = usuarios;
-    }
-
-
     public List<Produto> getProdutos() {
         return produtos;
     }
 
     public void setProdutos(List<Produto> produtos) {
         this.produtos = produtos;
+    }
+
+    public Map<String, Usuario> getUsuarios() {
+        return usuarios;
+    }
+
+    public void setUsuarios(Map<String, Usuario> usuarios) {
+        this.usuarios = usuarios;
     }
 }

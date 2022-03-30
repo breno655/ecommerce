@@ -5,9 +5,14 @@ import java.util.*;
 public class Vendedor extends Usuario {
 
     private String nome;
+    final int codigoVendedor = 2;
     private List<Produto> produtos;
 
     Scanner scanner = new Scanner(System.in);
+
+    public Vendedor () {
+
+    }
 
     public Vendedor (String nome, String login, String senha) {
         super(nome, login, senha);
@@ -95,4 +100,5 @@ public class Vendedor extends Usuario {
     public void setProdutos(List<Produto> produtos) {
         this.produtos = produtos;
     }
+
 }

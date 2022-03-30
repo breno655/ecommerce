@@ -6,8 +6,16 @@ public class Administrador extends Usuario {
 
     Scanner scanner = new Scanner(System.in);
 
+    final int codigoAdministrador = 0;
+
+    public Administrador () {
+
+    }
+
     public Administrador (String nome, String login, String senha) {
         super(nome, login, senha);
+        this.login = "admin";
+        this.senha = "admin";
     }
 
     public void criaCategoria(Map<Categoria, List<Categoria>> dicionario) {
