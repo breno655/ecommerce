@@ -42,6 +42,44 @@ public class Vendedor extends Usuario {
         }
     }
 
+    public void listarProdutos (Map<Categoria, List<Categoria>> dicionario) {
+
+    }
+
+    public void removerProdutos (Map<Categoria, List<Categoria>> dicionario) {
+        System.out.println("Quantos produtos você quer REMOVER");
+        int quantidadeRemoverProdutos = Integer.parseInt(scanner.nextLine());
+
+        for (int i = 0; i < quantidadeRemoverProdutos; i++) {
+            System.out.println("Nome do produto a ser removido? ");
+            String produtoARemover = scanner.nextLine();
+
+            for (Categoria key : dicionario.keySet()) {
+                for (Categoria subcategorias : key.getSubcategorias()) {
+                    subcategorias.getProdutos().removeIf(produto -> Objects.equals(produto.getNome(), produtoARemover));
+                }
+            }
+
+        }
+    }
+
+    public void editarProdutos (Map<Categoria, List<Categoria>> dicionario) {
+        System.out.println("Quantos produtos você quer EDITAR");
+        int quantidadeEditarProdutos = Integer.parseInt(scanner.nextLine());
+
+        for (int i = 0; i < quantidadeEditarProdutos; i++) {
+            System.out.println("Nome do produto a ser editado? ");
+            String produtoAEditar = scanner.nextLine();
+
+            for (Categoria key : dicionario.keySet()) {
+                for (Categoria subcategorias : key.getSubcategorias()) {
+                    subcategorias.getProdutos().removeIf(produto -> Objects.equals(produto.getNome(), produtoAEditar));
+                }
+            }
+
+        }
+    }
+
     public void adicionaProdutosNaCategoria (Map<Categoria, List<Categoria>> dicionario, List<Produto> produtos) {
         System.out.print("Quer adicionar os produtos em qual CATEGORIA? ");
         String nomeDaCategoria = scanner.nextLine();
@@ -70,27 +108,11 @@ public class Vendedor extends Usuario {
                         break;
                     }
                 }
+
                 break;
             }
         }
 
-    }
-
-    public void removerProdutos (Map<Categoria, List<Categoria>> dicionario) {
-        System.out.println("Quantos produtos você quer REMOVER");
-        int quantidadeRemoverProdutos = Integer.parseInt(scanner.nextLine());
-
-        for (int i = 0; i < quantidadeRemoverProdutos; i++) {
-            System.out.println("Nome do produto a ser removido? ");
-            String produtoARemover = scanner.nextLine();
-
-            for (Categoria key : dicionario.keySet()) {
-                for (Categoria subcategorias : key.getSubcategorias()) {
-                    subcategorias.getProdutos().removeIf(produto -> Objects.equals(produto.getNome(), produtoARemover));
-                }
-            }
-
-        }
     }
 
     public List<Produto> getProdutos() {

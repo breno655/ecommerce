@@ -22,7 +22,6 @@ public class Ecommerce {
         boolean encontrado = false;
         for (String login : usuarios.keySet()) {
             if (login.equals(loginDoUsuario)) {
-                System.out.println("Encontrado");
                 encontrado = true;
                 break;
             }
@@ -40,9 +39,7 @@ public class Ecommerce {
     }
 
     public void imprimirDicionario () {
-        int contadorCategoria = 0;
-        int contadorSubcategoria = 0;
-        int contadorProduto = 0;
+        int contadorCategoria = 0; int contadorSubcategoria = 0; int contadorProduto = 0;
 
         for (Categoria key : dicionario.keySet()) {
             System.out.println(++contadorCategoria + ". " + key.getNome());
