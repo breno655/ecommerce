@@ -53,19 +53,48 @@ public class Administrador extends Usuario {
         }
     }
 
-    public void removerSubcategoria (Map<Categoria, List<Categoria>> dicionario) {
-        System.out.println("Quantas subcategorias você quer REMOVER");
-        int quantidadeRemoverProdutos = Integer.parseInt(scanner.nextLine());
+    public void editarCategoria (Map<Categoria, List<Categoria>> dicionario) {
+        System.out.println("Nome da categoria a ser editada? ");
+        String produtoAEditar = scanner.nextLine();
 
-        for (int i = 0; i < quantidadeRemoverProdutos; i++) {
-            System.out.println("Nome da subcategoria a ser removida? ");
-            String produtoARemover = scanner.nextLine();
-            // fazer alteração abaixo para remover as subcategorias
-            for (Categoria key : dicionario.keySet()) {
-                for (Categoria subcategorias : key.getSubcategorias()) {
-                    subcategorias.getProdutos().removeIf(produto -> Objects.equals(produto.getNome(), produtoARemover));
+        System.out.println("Quer editar\n1- Nome");
+        int opcaoEditar = Integer.parseInt(scanner.nextLine());
+
+        for (Categoria key : dicionario.keySet()) {
+            if (key.getNome().equals(produtoAEditar)) {
+                if (opcaoEditar == 1) {
+                    System.out.print("Nome da nova categoria: ");
+                    String novoNome = scanner.nextLine();
+                    key.setNome(novoNome);
                 }
             }
+        }
+    }
+
+    public void removerSubcategoria (Map<Categoria, List<Categoria>> dicionario) {
+        System.out.print("Quantas subcategorias você quer REMOVER? ");
+        int quantidadeRemoverSubcategoria = Integer.parseInt(scanner.nextLine());
+
+        for (int i = 0; i < quantidadeRemoverSubcategoria; i++) {
+            System.out.println("Nome da subcategoria a ser removida? ");
+            String subcategoriaARemover = scanner.nextLine();
+
+            for (Categoria key : dicionario.keySet()) {
+                key.getSubcategorias().removeIf(subcategorias -> Objects.equals(subcategorias.getNome(), subcategoriaARemover));
+            }
+
+        }
+    }
+
+    public void removerCategoria (Map<Categoria, List<Categoria>> dicionario) {
+        System.out.print("Quantas categorias você quer REMOVER? ");
+        int quantidadeRemoverCategoria = Integer.parseInt(scanner.nextLine());
+
+        for (int i = 0; i < quantidadeRemoverCategoria; i++) {
+            System.out.println("Nome da categoria a ser removida? ");
+            String categoriaARemover = scanner.nextLine();
+
+            dicionario.keySet().removeIf(keySet -> Objects.equals(keySet.getNome(), categoriaARemover));
 
         }
     }

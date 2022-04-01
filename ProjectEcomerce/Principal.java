@@ -31,7 +31,7 @@ public class Principal {
 
         int tipoDeUsuario;
         do {
-            System.out.println("Bem-vindo a Cyber Feira");
+            System.out.println("\nBem-vindo a Cyber Feira");
 
             System.out.println("1- Fazer Cadastro\n2- Fazer Login");
             int loginOuCadastro = Integer.parseInt(scanner.nextLine());
@@ -40,6 +40,7 @@ public class Principal {
             tipoDeUsuario = Integer.parseInt(scanner.nextLine());
 
             if (loginOuCadastro == 1) {
+                System.out.println("CADASTRO");
 
                 System.out.print("Seu Nome: ");
                 String nomeUsuario = scanner.nextLine();
@@ -65,6 +66,7 @@ public class Principal {
                 }
 
             } else if (loginOuCadastro == 2) {
+                System.out.println("LOGIN");
 
                 System.out.print("Seu Login: ");
                 String loginUsuario = scanner.nextLine();
@@ -81,13 +83,15 @@ public class Principal {
 
                         switch (tipoDeUsuario) {
                             case 1:
+
+                                ecommerce.imprimirDicionario();
                                 break;
 
                             case 2:
 
                                 int opcaoCrudCategoria;
                                 do {
-                                    System.out.println("- Manipulando Categorias e Subcategorias -\n1- CRIAR" +
+                                    System.out.println("\n- Manipulando Categorias e Subcategorias -\n1- CRIAR" +
                                             "\n2- LISTAR\n3- REMOVER\n4- EDITAR\n5- deslogar");
                                     opcaoCrudCategoria = Integer.parseInt(scanner.nextLine());
 
@@ -101,18 +105,26 @@ public class Principal {
                                         if (categoriaOuSubcategoria == 2) {
                                             administrador.criaSubcategoria(ecommerce.getDicionario());
                                         }
-                                    }
-                                    if (opcaoCrudCategoria == 3) {
+                                    } else if (opcaoCrudCategoria == 2) {
+                                        ecommerce.imprimirDicionario();
+                                    } else if (opcaoCrudCategoria == 3) {
+
+                                        System.out.println("REMOVER");
                                         System.out.println("1- Categoria\n2- Subcategoria");
                                         int categoriaOuSubcategoria = Integer.parseInt(scanner.nextLine());
 
                                         if (categoriaOuSubcategoria == 1) {
-                                            administrador.criaCategoria(ecommerce.getDicionario());
-                                        }
-                                        if (categoriaOuSubcategoria == 2) {
+                                            ecommerce.imprimirDicionario();
+                                            administrador.removerCategoria(ecommerce.getDicionario());
+                                        } else if (categoriaOuSubcategoria == 2){
+                                            ecommerce.imprimirDicionario();
                                             administrador.removerSubcategoria(ecommerce.getDicionario());
                                         }
+
+                                    } else if (opcaoCrudCategoria == 4) {
+                                        administrador.editarCategoria(ecommerce.getDicionario());
                                     }
+
                                 } while (opcaoCrudCategoria != 5);
                                 break;
 
@@ -120,7 +132,7 @@ public class Principal {
 
                                 int opcaoCrudProduto;
                                 do {
-                                    System.out.println("- Manipulando Produtos -\n1- CRIAR" +
+                                    System.out.println("\n- Manipulando Produtos -\n1- CRIAR" +
                                             "\n2- LISTAR\n3- REMOVER\n4- EDITAR\n5- deslogar");
                                     opcaoCrudProduto = Integer.parseInt(scanner.nextLine());
 
@@ -144,6 +156,11 @@ public class Principal {
 
                                     } else if (opcaoCrudProduto == 2) {
                                         ecommerce.imprimirDicionario();
+                                    } else if (opcaoCrudProduto == 3) {
+                                        ecommerce.imprimirDicionario();
+                                        vendedor.removerProdutos(ecommerce.getDicionario());
+                                    } else if (opcaoCrudProduto == 4) {
+                                        vendedor.editarProdutos(ecommerce.getDicionario());
                                     }
 
                                 } while (opcaoCrudProduto != 5);

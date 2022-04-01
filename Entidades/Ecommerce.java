@@ -39,17 +39,55 @@ public class Ecommerce {
     }
 
     public void imprimirDicionario () {
+        System.out.println("MENU");
+
+        for (Categoria key : dicionario.keySet()) {
+            System.out.println("* " + key.getNome());
+            for (Categoria subcategorias : key.getSubcategorias()) {
+                System.out.println("   * " + subcategorias.getNome());
+                for (Produto produto : subcategorias.getProdutos()) {
+                    System.out.println("      * " + produto.getNome());
+                }
+            }
+        }
+
+    }
+
+    public void imprimirDicionarioCliente () {
         int contadorCategoria = 0; int contadorSubcategoria = 0; int contadorProduto = 0;
 
         for (Categoria key : dicionario.keySet()) {
             System.out.println(++contadorCategoria + ". " + key.getNome());
+        }
+
+        System.out.println("Escolha uma CATEGORIA? ");
+        String escolhaCategoria = scanner.nextLine();
+
+        for (Categoria key : dicionario.keySet()) {
+            if (key.getNome().equals(escolhaCategoria)) {
+                for (Categoria subcategorias : key.getSubcategorias()) {
+                    System.out.println(++contadorSubcategoria + ". " + subcategorias.getNome());
+                }
+            } else {
+                System.out.println("Categoria não encontrada ou digitou errado");
+            }
+        }
+
+        System.out.println("Escolha uma SUBCATEGORIA? ");
+        String escolhaSubcategoria = scanner.nextLine();
+
+        for (Categoria key : dicionario.keySet()) {
             for (Categoria subcategorias : key.getSubcategorias()) {
-                System.out.println("   " + ++contadorSubcategoria + ". " + subcategorias.getNome());
-                for (Produto produto : subcategorias.getProdutos()) {
-                    System.out.println("     " + ++contadorProduto + ". " + produto.getNome());
+                if (subcategorias.getNome().equals(escolhaSubcategoria)) {
+                    for (Produto produto : subcategorias.getProdutos()) {
+                        System.out.println(++contadorProduto + ". " + produto.getNome());
+                    }
+                } else {
+                    System.out.println("Subcategoria não encontrada ou digitou errado");
                 }
             }
         }
+
     }
 
     public Map<Categoria, List<Categoria>> getDicionario() {
@@ -75,4 +113,5 @@ public class Ecommerce {
     public void setUsuarios(Map<String, Usuario> usuarios) {
         this.usuarios = usuarios;
     }
+
 }

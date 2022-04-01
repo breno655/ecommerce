@@ -42,16 +42,16 @@ public class Vendedor extends Usuario {
         }
     }
 
-    public void listarProdutos (Map<Categoria, List<Categoria>> dicionario) {
+    public void listaProdutos (Map<Categoria, List<Categoria>> dicionario) {
 
     }
 
     public void removerProdutos (Map<Categoria, List<Categoria>> dicionario) {
-        System.out.println("Quantos produtos você quer REMOVER");
+        System.out.print("Quantos produtos você quer REMOVER? ");
         int quantidadeRemoverProdutos = Integer.parseInt(scanner.nextLine());
 
         for (int i = 0; i < quantidadeRemoverProdutos; i++) {
-            System.out.println("Nome do produto a ser removido? ");
+            System.out.print("Nome do produto a ser removido? ");
             String produtoARemover = scanner.nextLine();
 
             for (Categoria key : dicionario.keySet()) {
@@ -64,19 +64,36 @@ public class Vendedor extends Usuario {
     }
 
     public void editarProdutos (Map<Categoria, List<Categoria>> dicionario) {
-        System.out.println("Quantos produtos você quer EDITAR");
-        int quantidadeEditarProdutos = Integer.parseInt(scanner.nextLine());
+        System.out.println("Nome do produto a ser editado? ");
+        String produtoAEditar = scanner.nextLine();
 
-        for (int i = 0; i < quantidadeEditarProdutos; i++) {
-            System.out.println("Nome do produto a ser editado? ");
-            String produtoAEditar = scanner.nextLine();
+        System.out.println("Quer editar\n1- Nome\n2- Preço\n3- Descrição\n4- Quantidade");
+        int opcaoEditar = Integer.parseInt(scanner.nextLine());
 
-            for (Categoria key : dicionario.keySet()) {
-                for (Categoria subcategorias : key.getSubcategorias()) {
-                    subcategorias.getProdutos().removeIf(produto -> Objects.equals(produto.getNome(), produtoAEditar));
+        for (Categoria key : dicionario.keySet()) {
+            for (Categoria subcategorias : key.getSubcategorias()) {
+                for (Produto produto: subcategorias.getProdutos()) {
+                    if (produto.getNome().equals(produtoAEditar)) {
+                        if (opcaoEditar == 1) {
+                            System.out.print("Nome do novo produto: ");
+                            String novoNome = scanner.nextLine();
+                            produto.setNome(novoNome);
+                        } else if (opcaoEditar == 2) {
+                            System.out.print("Preço do novo produto: ");
+                            float novoPreco = Float.parseFloat(scanner.nextLine());
+                            produto.setPreco(novoPreco);
+                        } else if (opcaoEditar == 3) {
+                            System.out.print("Descrição do novo produto: ");
+                            String novaDescricao = scanner.nextLine();
+                            produto.setDescricao(novaDescricao);
+                        } else if (opcaoEditar == 4) {
+                            System.out.print("Quantidade do novo produto: ");
+                            int novaQuantidade = Integer.parseInt(scanner.nextLine());
+                            produto.setPreco(novaQuantidade);
+                        }
+                    }
                 }
             }
-
         }
     }
 
@@ -96,7 +113,7 @@ public class Vendedor extends Usuario {
         System.out.print("Quer adicionar os produtos em qual CATEGORIA? ");
         String nomeDaCategoria = scanner.nextLine();
 
-        System.out.println("Quer adicionar os produtos em qual SUBCATEGORIA? ");
+        System.out.print("Quer adicionar os produtos em qual SUBCATEGORIA? ");
         String nomeDaSubcategoria = scanner.nextLine();
 
         for (Categoria key : dicionario.keySet()) {
