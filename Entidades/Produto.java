@@ -1,5 +1,10 @@
 package Entidades;
 
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Scanner;
+
 public class Produto {
 
     private String nome;
@@ -7,11 +12,17 @@ public class Produto {
     private String descricao;
     private int quantidade;
 
+    Scanner scanner = new Scanner(System.in);
+
     public Produto (String nome, float preco, String descricao, int quantidade) {
         this.nome = nome;
         this.preco = preco;
         this.descricao = descricao;
         this.quantidade = quantidade;
+    }
+
+    public Produto () {
+
     }
 
     public String getNome() {

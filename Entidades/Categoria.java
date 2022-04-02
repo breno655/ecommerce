@@ -19,6 +19,16 @@ public class Categoria {
         this.subcategorias.add(subcategoria);
     }
 
+    public void exibeSubcategorias () {
+        for (Categoria subcategoria : subcategorias) {
+            System.out.println("- " + subcategoria.getNome().toUpperCase());
+        }
+    }
+
+    public boolean possuiSubCats () {
+        return this.subcategorias.size() != 0;
+    }
+
     public String getNome() {
         return nome;
     }
@@ -42,4 +52,6 @@ public class Categoria {
     public void setSubcategorias(List<Categoria> subcategorias) {
         this.subcategorias = subcategorias;
     }
+
+
 }

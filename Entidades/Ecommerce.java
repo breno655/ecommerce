@@ -7,7 +7,7 @@ public class Ecommerce {
     Scanner scanner = new Scanner(System.in);
 
     public String nome = "Cyber Feira";
-    private Map<Categoria, List<Categoria>> dicionario;
+    private Map<String, Categoria> dicionario;
     private List<Produto> produtos;
     private Map<String, Usuario> usuarios;
 
@@ -16,6 +16,24 @@ public class Ecommerce {
         this.dicionario = new HashMap<>();
         this.produtos = new ArrayList<>();
         this.usuarios = new HashMap<>();
+    }
+
+    public void exibeDicionario (Categoria categoria) {
+
+    }
+
+    public void exibeCategorias () {
+        for (String nomeCategoria : dicionario.keySet()) {
+            System.out.println("- " + nomeCategoria.toUpperCase());
+        }
+    }
+
+    public Categoria escolheCategoria (String nomeCategoria) {
+        for (Categoria categoria : dicionario.values()) {
+            if (categoria.getNome().equals(nomeCategoria)) {
+                return categoria;
+            }
+        } return null;
     }
 
     public boolean buscarUsuario (String loginDoUsuario) {
@@ -38,65 +56,6 @@ public class Ecommerce {
         } return validado;
     }
 
-    public void imprimirDicionario () {
-        System.out.println("MENU");
-
-        for (Categoria key : dicionario.keySet()) {
-            System.out.println("* " + key.getNome());
-            for (Categoria subcategorias : key.getSubcategorias()) {
-                System.out.println("   * " + subcategorias.getNome());
-                for (Produto produto : subcategorias.getProdutos()) {
-                    System.out.println("      * " + produto.getNome());
-                }
-            }
-        }
-
-    }
-
-    public void imprimirDicionarioCliente () {
-        int contadorCategoria = 0; int contadorSubcategoria = 0; int contadorProduto = 0;
-
-        for (Categoria key : dicionario.keySet()) {
-            System.out.println(++contadorCategoria + ". " + key.getNome());
-        }
-
-        System.out.println("Escolha uma CATEGORIA? ");
-        String escolhaCategoria = scanner.nextLine();
-
-        for (Categoria key : dicionario.keySet()) {
-            if (key.getNome().equals(escolhaCategoria)) {
-                for (Categoria subcategorias : key.getSubcategorias()) {
-                    System.out.println(++contadorSubcategoria + ". " + subcategorias.getNome());
-                }
-            } else {
-                System.out.println("Categoria não encontrada ou digitou errado");
-            }
-        }
-
-        System.out.println("Escolha uma SUBCATEGORIA? ");
-        String escolhaSubcategoria = scanner.nextLine();
-
-        for (Categoria key : dicionario.keySet()) {
-            for (Categoria subcategorias : key.getSubcategorias()) {
-                if (subcategorias.getNome().equals(escolhaSubcategoria)) {
-                    for (Produto produto : subcategorias.getProdutos()) {
-                        System.out.println(++contadorProduto + ". " + produto.getNome());
-                    }
-                } else {
-                    System.out.println("Subcategoria não encontrada ou digitou errado");
-                }
-            }
-        }
-
-    }
-
-    public Map<Categoria, List<Categoria>> getDicionario() {
-        return dicionario;
-    }
-
-    public void setDicionario(Map<Categoria, List<Categoria>> dicionario) {
-        this.dicionario = dicionario;
-    }
 
     public List<Produto> getProdutos() {
         return produtos;
@@ -114,4 +73,11 @@ public class Ecommerce {
         this.usuarios = usuarios;
     }
 
+    public Map<String, Categoria> getDicionario() {
+        return dicionario;
+    }
+
+    public void setDicionario(Map<String, Categoria> dicionario) {
+        this.dicionario = dicionario;
+    }
 }
