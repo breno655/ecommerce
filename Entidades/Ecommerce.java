@@ -18,8 +18,10 @@ public class Ecommerce {
         this.usuarios = new HashMap<>();
     }
 
-    public void exibeDicionario (Categoria categoria) {
-
+    public void exibeSubCats (Categoria categoria) {
+        for (Categoria subCats : categoria.getSubcategorias()) {
+            System.out.println("- " + subCats.getNome().toUpperCase());
+        }
     }
 
     public void exibeCategorias () {
@@ -29,11 +31,21 @@ public class Ecommerce {
     }
 
     public Categoria escolheCategoria (String nomeCategoria) {
+        Categoria categoriaReturn = new Categoria();
         for (Categoria categoria : dicionario.values()) {
             if (categoria.getNome().equals(nomeCategoria)) {
-                return categoria;
+               categoriaReturn = categoria;
             }
-        } return null;
+        } return categoriaReturn;
+    }
+
+    public Categoria escolheSubCat (String nomeCategoria, Categoria categoria1) {
+        Categoria categoriaReturn = null;
+        for (Categoria categoria : categoria1.getSubcategorias()) {
+            if (categoria.getNome().equals(nomeCategoria)) {
+                categoriaReturn = categoria;
+            }
+        } return categoriaReturn;
     }
 
     public boolean buscarUsuario (String loginDoUsuario) {

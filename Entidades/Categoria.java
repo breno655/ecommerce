@@ -15,6 +15,24 @@ public class Categoria {
         this.produtos = new ArrayList<>();
     }
 
+    public Categoria () {
+
+    }
+
+    public Produto escolheProduto (String nomeProduto) {
+        for (Produto produto : produtos) {
+            if (produto.getNome().equals(nomeProduto)) {
+                return produto;
+            }
+        } return null;
+    }
+
+    public void exibeProdutos () {
+        for (Produto produto : produtos) {
+            System.out.println("- " + produto.getNome());
+        }
+    }
+
     public void adicionaSubcategoria (Categoria subcategoria) {
         this.subcategorias.add(subcategoria);
     }
@@ -26,7 +44,7 @@ public class Categoria {
     }
 
     public boolean possuiSubCats () {
-        return this.subcategorias.size() != 0;
+        return this.subcategorias != (null);
     }
 
     public String getNome() {

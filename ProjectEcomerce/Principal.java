@@ -28,7 +28,7 @@ public class Principal {
         ecommerce.getDicionario().put("eletronico", categoriaComida);
         Categoria categoriaEletronico = new Categoria("eletronico");
         Categoria SubcategoriaCelular = new Categoria("celular");
-        categoriaComida.getSubcategorias().add(SubcategoriaCelular);
+        categoriaEletronico.getSubcategorias().add(SubcategoriaCelular);
         ecommerce.getDicionario().put("comida", categoriaEletronico);
 
         Scanner scanner = new Scanner(System.in);
@@ -124,7 +124,14 @@ public class Principal {
 
                                         }
                                     } else if (opcaoCrudCategoria == 2) {
-                                        System.out.println("Metodo ecommerce.imprimirDicionario()");
+
+                                        System.out.println("* Navegando na LISTA de categorias e subcategorias...");
+                                        ecommerce.exibeCategorias();
+                                        System.out.print("Digite UMA para abrir suas Subcategorias: ");
+                                        String escolhaAsCategorias = scanner.nextLine();
+                                        Categoria categoria = ecommerce.escolheCategoria(escolhaAsCategorias);
+                                        ecommerce.exibeSubCats(categoria);
+
                                     } else if (opcaoCrudCategoria == 3) {
 
                                         System.out.println("REMOVER");
@@ -147,20 +154,18 @@ public class Principal {
                                                 System.out.print("sua SUBCATEGORIA está aqui? [s/n] ");
                                                 String simOuNao = scanner.nextLine();
                                                 if (simOuNao.equals("s")) {
-
                                                     Categoria guardarListaParaRemocao = subcategoriaEscolhida;
                                                     System.out.print("\nDigite qual deseja REMOVER: ");
                                                     String escolhaAsSubcategorias = scanner.nextLine();
-                                                    subcategoriaEscolhida = ecommerce.escolheCategoria(escolhaAsSubcategorias);
+                                                    subcategoriaEscolhida = ecommerce.escolheSubCat(escolhaAsSubcategorias, guardarListaParaRemocao);
                                                     administrador.removerSubcategoria(guardarListaParaRemocao, subcategoriaEscolhida);
                                                     System.out.println("Removido com Sucesso!");
                                                     break;
-                                                } else {
-                                                    System.out.print("\nDigite UMA para abrir suas Subcategorias: ");
-                                                    String escolhaAsSubcategorias = scanner.nextLine();
-                                                    subcategoriaEscolhida = ecommerce.escolheCategoria(escolhaAsSubcategorias);
                                                 }
 
+                                            }
+                                            if (!subcategoriaEscolhida.possuiSubCats()) {
+                                                System.out.println(escolhaAsCategorias + " não tem subcategorias");
                                             }
 
                                             /*System.out.println("REMOÇÃO\nescolha uma as opções: ");
@@ -189,10 +194,9 @@ public class Principal {
 
                                         System.out.print("Nome da categoria a ser editada? ");
                                         String categoriaAEditar = scanner.nextLine();
-                                        System.out.print("Editando nome da categoria...\nNome da NOVA categoria: ");
+                                        System.out.print("Editando nome da categoria...\nNOVO nome da categoria: ");
                                         String novoNomeDaCategoria = scanner.nextLine();
-
-                                        administrador.editarCategoria(novoNomeDaCategoria, ecommerce.escolheCategoria(categoriaAEditar));
+                                        administrador.editarCategoria(novoNomeDaCategoria, ecommerce.escolheCategoria(categoriaAEditar), ecommerce.getDicionario());
                                     }
 
                                 } while (opcaoCrudCategoria != 5);
@@ -208,10 +212,8 @@ public class Principal {
 
                                     if (opcaoCrudProduto == 1) {
 
-                                        System.out.println("Criando uma lista de produtos...");
+                                        System.out.println("Criando produtos...");
 
-                                        System.out.print("Quantos produtos você deseja adicionar? ");
-                                        int quantidadeDeProdutos = Integer.parseInt(scanner.nextLine());
                                         System.out.print("Nome do produto: ");
                                         String nome = scanner.nextLine();
                                         System.out.print("Preço do produto: R$");
@@ -222,44 +224,100 @@ public class Principal {
                                         int quantidade = Integer.parseInt(scanner.nextLine());
                                         System.out.println("");
 
-                                        List<Produto> listaTemporaria = vendedor.criaProdutos(quantidadeDeProdutos, nome, preco, descricao, quantidade);
+                                        Produto produto = vendedor.criaProdutos(nome, preco, descricao, quantidade);
 
-                                        System.out.println("Você quer adicionar os produtos em\n1- Categoria\n2- Subcategoria");
-                                        int opcaoAdicionarCategoriaOuSubcategoria = Integer.parseInt(scanner.nextLine());
+                                        System.out.println("Você quer adicionar os produtos em");
+                                        ecommerce.exibeCategorias();
+                                        System.out.print("Opção: ");
+                                        String nomeDaCategoria = scanner.nextLine();
+                                        Categoria categoriaEscolhida = ecommerce.escolheCategoria(nomeDaCategoria);
 
-                                        if (opcaoAdicionarCategoriaOuSubcategoria == 1) {
-                                            ecommerce.exibeCategorias();
-                                            System.out.print("Quer adicionar em qual CATEGORIA? ");
-                                            String nomeDaCategoria = scanner.nextLine();
-                                            Categoria categoriaEscolhida = ecommerce.escolheCategoria(nomeDaCategoria);
-                                            vendedor.adicionaProdutosNaCategoria(categoriaEscolhida, listaTemporaria);
-                                        }
-                                        if (opcaoAdicionarCategoriaOuSubcategoria == 2) {
-                                            ecommerce.exibeCategorias();
-                                            System.out.print("Digite UMA para abrir suas Subcategorias: ");
-                                            String nomeDaCategoria = scanner.nextLine();
-                                            Categoria subcategoriaEscolhida = ecommerce.escolheCategoria(nomeDaCategoria);
-
-                                            while (subcategoriaEscolhida.possuiSubCats()) {
-                                                subcategoriaEscolhida.exibeSubcategorias();
-                                                System.out.print("\nEscolha uma das opções: ");
-                                                String escolhaAsSubcategorias = scanner.nextLine();
-                                                subcategoriaEscolhida = ecommerce.escolheCategoria(escolhaAsSubcategorias);
+                                        while (categoriaEscolhida.possuiSubCats()) {
+                                            categoriaEscolhida.exibeSubcategorias();
+                                            System.out.print("Opção: ");
+                                            nomeDaCategoria = scanner.nextLine();
+                                            categoriaEscolhida = ecommerce.escolheSubCat(nomeDaCategoria, categoriaEscolhida);
+                                            if (categoriaEscolhida.possuiSubCats()) {
+                                                vendedor.adicionaProdutosNaSubcategoria(categoriaEscolhida, produto);
+                                                break;
                                             }
-                                            vendedor.adicionaProdutosNaSubcategoria(subcategoriaEscolhida, listaTemporaria);
                                         }
 
                                     } else if (opcaoCrudProduto == 2) {
-                                        System.out.println("Metodo ecommerce.imprimirDicionario()");
+
+                                        System.out.println("* Navegando na LISTA de produtos...");
+                                        ecommerce.exibeCategorias();
+                                        System.out.print("Digite UMA para abrir em Subcategorias: ");
+                                        String escolhaAsCategorias = scanner.nextLine();
+                                        Categoria categoria = ecommerce.escolheCategoria(escolhaAsCategorias);
+                                        ecommerce.exibeSubCats(categoria);
+                                        System.out.print("Digite UMA para abrir em Produtos: ");
+                                        String escolhaAsSubcategorias = scanner.nextLine();
+                                        Categoria subCat = ecommerce.escolheSubCat(escolhaAsSubcategorias, categoria);
+                                        subCat.exibeProdutos();
+
                                     } else if (opcaoCrudProduto == 3) {
 
-                                        System.out.print("Nome do produto a ser removido? ");
-                                        String produtoARemover = scanner.nextLine();
+                                        System.out.println("Você quer REMOVER os produtos em");
+                                        ecommerce.exibeCategorias();
+                                        System.out.print("Opção: ");
+                                        String nomeDaCategoria = scanner.nextLine();
+                                        Categoria categoriaEscolhida = ecommerce.escolheCategoria(nomeDaCategoria);
 
-                                        vendedor.removerProdutos(ecommerce.getDicionario());
+                                        while (categoriaEscolhida.possuiSubCats()) {
+                                            categoriaEscolhida.exibeSubcategorias();
+                                            System.out.print("Opção: ");
+                                            nomeDaCategoria = scanner.nextLine();
+                                            categoriaEscolhida = ecommerce.escolheSubCat(nomeDaCategoria, categoriaEscolhida);
+                                            if (categoriaEscolhida.possuiSubCats()) {
+                                                categoriaEscolhida.exibeProdutos();
+                                                System.out.println("Opção: ");
+                                                String nomeProdutoRemover = scanner.nextLine();
+                                                vendedor.removerProdutos(categoriaEscolhida, nomeProdutoRemover);
+                                                break;
+                                            }
+                                        }
 
                                     } else if (opcaoCrudProduto == 4) {
-                                        vendedor.editarProdutos(ecommerce.getDicionario());
+
+                                        System.out.println("Você quer EDITAR os produtos em");
+                                        ecommerce.exibeCategorias();
+                                        System.out.print("Opção: ");
+                                        String nomeDaCategoria = scanner.nextLine();
+                                        Categoria categoriaEscolhida = ecommerce.escolheCategoria(nomeDaCategoria);
+
+                                        while (categoriaEscolhida.possuiSubCats()) {
+                                            categoriaEscolhida.exibeSubcategorias();
+                                            System.out.print("Opção: ");
+                                            nomeDaCategoria = scanner.nextLine();
+                                            categoriaEscolhida = ecommerce.escolheSubCat(nomeDaCategoria, categoriaEscolhida);
+                                            if (categoriaEscolhida.possuiSubCats()) {
+                                                categoriaEscolhida.exibeProdutos();
+                                                System.out.println("Opção: ");
+                                                String nomeProdutoEditar = scanner.nextLine();
+                                                Produto produto = categoriaEscolhida.escolheProduto(nomeProdutoEditar);
+
+                                                System.out.print("Editar...\n1- Nome\n2- Preço\n3- Descrição\nOpção: ");
+                                                int opcaoEditar = Integer.parseInt(scanner.nextLine());
+
+                                                String novoNome = "";
+                                                String novaDescricao = "";
+                                                float novoPreco = 0;
+                                                if (opcaoEditar == 1) {
+                                                    System.out.print("Nome do novo produto: ");
+                                                    novoNome = scanner.nextLine();
+                                                } else if (opcaoEditar == 2) {
+                                                    System.out.print("Preço do novo produto: ");
+                                                    novoPreco = Float.parseFloat(scanner.nextLine());
+                                                } else if (opcaoEditar == 3) {
+                                                    System.out.print("Descrição do novo produto: ");
+                                                    novaDescricao = scanner.nextLine();
+                                                }
+                                                vendedor.editarProdutos(opcaoEditar, produto, novoNome, novoPreco, novaDescricao);
+                                                break;
+                                            }
+                                        }
+
                                     }
 
                                 } while (opcaoCrudProduto != 5);

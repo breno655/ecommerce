@@ -19,29 +19,33 @@ public class Vendedor extends Usuario {
         this.produtos = new ArrayList<>();
     }
 
-    public List<Produto> criaProdutos(int quantidadeDeProdutos, String nome, float preco, String descricao, int quantidade) {
-        List<Produto> listaTemporaria = new ArrayList<>();
-        for (int i = 0; i < quantidadeDeProdutos; i++) {
-            Produto novoProduto = new Produto(nome, preco, descricao, quantidade);
-            // abaixo é adicionado os produtos na lista de produtos do vendedor pra saber que cada
-            // vendedor tem sua lista de produtos para vender.
-            this.produtos.add(novoProduto);
-            listaTemporaria.add(novoProduto);
-        }
-        return listaTemporaria;
+    public Produto criaProdutos(String nome, float preco, String descricao, int quantidade) {
+        Produto novoProduto = new Produto(nome, preco, descricao, quantidade);
+        // abaixo é adicionado os produtos na lista de produtos do vendedor pra saber que cada
+        // vendedor tem sua lista de produtos para vender.
+        this.produtos.add(novoProduto);
+        return novoProduto;
     }
 
     public void listarProdutos (Map<Categoria, List<Categoria>> dicionario) {
 
     }
 
-    public void removerProdutos (Categoria categoria, Categoria subcategoria) {
-        for (Categoria subcategorias : key.getSubcategorias()) {
-            subcategorias.getProdutos().removeIf(produto -> Objects.equals(produto.getNome(), produtoARemover));
+    public void removerProdutos (Categoria categoria, String nomeProduto) {
+        categoria.getProdutos().removeIf(produto -> Objects.equals(produto.getNome(), nomeProduto));
+    }
+
+    public void editarProdutos (int opcaoEditar, Produto produto, String novoNome, float novoPreco, String novaDescricao) {
+        if (opcaoEditar == 1) {
+            produto.setNome(novoNome);
+        } else if (opcaoEditar == 2) {
+            produto.setPreco(novoPreco);
+        } else if (opcaoEditar == 3) {
+            produto.setDescricao(novaDescricao);
         }
     }
 
-    public void editarProdutos (Map<String, Categoria> dicionario) {
+   /* public void editarProdutos (Map<String, Categoria> dicionario) {
         System.out.println("Nome do produto a ser editado? ");
         String produtoAEditar = scanner.nextLine();
 
@@ -73,14 +77,14 @@ public class Vendedor extends Usuario {
                 }
             }
         }
-    }
+    }*/
 
     public void adicionaProdutosNaCategoria (Categoria categoria, List<Produto> produto) {
         categoria.getProdutos().addAll(produto);
     }
 
-    public void adicionaProdutosNaSubcategoria (Categoria subcategoria, List<Produto> produto) {
-        subcategoria.getProdutos().addAll(produto);
+    public void adicionaProdutosNaSubcategoria (Categoria subcategoria, Produto produto) {
+        subcategoria.getProdutos().add(produto);
     }
 
     public List<Produto> getProdutos() {

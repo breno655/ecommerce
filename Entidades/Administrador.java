@@ -36,7 +36,9 @@ public class Administrador extends Usuario {
         }
     }
 
-    public void editarCategoria (String novoNomeDaCategoria, Categoria categoriaAEditar) {
+    public void editarCategoria (String novoNomeDaCategoria, Categoria categoriaAEditar, Map<String, Categoria> dicionario) {
+        dicionario.remove(categoriaAEditar.getNome());
+        dicionario.put(novoNomeDaCategoria, categoriaAEditar);
         categoriaAEditar.setNome(novoNomeDaCategoria);
     }
 
