@@ -8,73 +8,115 @@ public class Ecommerce {
 
     public String nome = "Cyber Feira";
     private Map<String, Categoria> dicionario;
-    private List<Produto> produtos;
+    private List<Produto> todosOsProdutosDoEcommerce;
     private Map<String, Usuario> usuarios;
 
-    public Ecommerce () {
+    public Ecommerce() {
         this.nome = nome;
         this.dicionario = new HashMap<>();
-        this.produtos = new ArrayList<>();
+        this.todosOsProdutosDoEcommerce = new ArrayList<>();
         this.usuarios = new HashMap<>();
     }
 
-    public void exibeSubCats (Categoria categoria) {
+    public void exibeUsuarios () {
+        for (Usuario usuario : usuarios.values()) {
+            System.out.println("- " + usuario.getNome().toUpperCase());
+        }
+    }
+
+    public void exibeSubCats(Categoria categoria) {
         for (Categoria subCats : categoria.getSubcategorias()) {
             System.out.println("- " + subCats.getNome().toUpperCase());
         }
     }
 
-    public void exibeCategorias () {
+    public void exibeCategorias() {
         for (String nomeCategoria : dicionario.keySet()) {
             System.out.println("- " + nomeCategoria.toUpperCase());
         }
     }
 
-    public Categoria escolheCategoria (String nomeCategoria) {
+    public Usuario escolheUsuarios(String opcaoUsuario) {
+        for (Usuario usuario : usuarios.values()) {
+            if (usuario.getNome().equals(opcaoUsuario)) {
+                return usuario;
+            }
+        }
+        return null;
+    }
+    public Categoria escolheCategoria(String nomeCategoria) {
         Categoria categoriaReturn = new Categoria();
         for (Categoria categoria : dicionario.values()) {
             if (categoria.getNome().equals(nomeCategoria)) {
-               categoriaReturn = categoria;
+                categoriaReturn = categoria;
             }
-        } return categoriaReturn;
+        }
+        return categoriaReturn;
     }
 
-    public Categoria escolheSubCat (String nomeCategoria, Categoria categoria1) {
+    public Categoria escolheSubCat(String nomeCategoria, Categoria categoria1) {
         Categoria categoriaReturn = null;
         for (Categoria categoria : categoria1.getSubcategorias()) {
             if (categoria.getNome().equals(nomeCategoria)) {
                 categoriaReturn = categoria;
             }
-        } return categoriaReturn;
+        }
+        return categoriaReturn;
     }
 
-    public boolean buscarUsuario (String loginDoUsuario) {
-        boolean encontrado = false;
-        for (String login : usuarios.keySet()) {
-            if (login.equals(loginDoUsuario)) {
-                encontrado = true;
-                break;
+    public Produto buscarProdutos (String produtoBuscado) {
+        for (Produto produto : todosOsProdutosDoEcommerce) {
+            if (produto.getNome().equals(produtoBuscado)) {
+                return produto;
             }
-        } return encontrado;
+        } return null;
     }
 
-    public boolean verficaLogin (String loginDoUsuario, String senhaUsuario) {
+    public Usuario buscarUsuario(String loginDoUsuario) {
+        for (Usuario usuario : usuarios.values()) {
+            if (usuario.getLogin().equals(loginDoUsuario)) {
+                return usuario;
+            }
+        } return null;
+    }
+
+    public boolean verficaLogin(String loginDoUsuario, String senhaUsuario) {
         boolean validado = false;
         for (Usuario usuario : usuarios.values()) {
             if (usuario.login.equals(loginDoUsuario) && usuario.senha.equals(senhaUsuario)) {
                 validado = true;
                 break;
             }
-        } return validado;
+        }
+        return validado;
     }
 
-
-    public List<Produto> getProdutos() {
-        return produtos;
+    public void cadastro (int tipoDeUsuario, String nomeUsuario, String loginUsuario, String senhaUsuario, Ecommerce ecommerce) {
+        if (tipoDeUsuario == 1) {
+            Cliente cliente = new Cliente(nomeUsuario, loginUsuario, senhaUsuario);
+            ecommerce.getUsuarios().put(loginUsuario, cliente);
+        } else if (tipoDeUsuario == 2) {
+            System.out.println("Não pode ser criado mais de um ADMINISTRADOR");
+        } else if (tipoDeUsuario == 3) {
+            Vendedor vendedor = new Vendedor(nomeUsuario, loginUsuario, senhaUsuario);
+            ecommerce.getUsuarios().put(loginUsuario, vendedor);
+        }
     }
 
-    public void setProdutos(List<Produto> produtos) {
-        this.produtos = produtos;
+    public boolean login (String loginUsuario, String senhaUsuario, Ecommerce ecommerce) {
+        if ((!ecommerce.verficaLogin(loginUsuario, senhaUsuario))) {
+            System.out.println("Não existe ou foi digitado errado");
+            return false;
+        }
+        return true;
+    }
+
+    public List<Produto> getTodosOsProdutosDoEcommerce() {
+        return todosOsProdutosDoEcommerce;
+    }
+
+    public void setTodosOsProdutosDoEcommerce(List<Produto> produtos) {
+        this.todosOsProdutosDoEcommerce = produtos;
     }
 
     public Map<String, Usuario> getUsuarios() {

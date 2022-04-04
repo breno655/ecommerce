@@ -25,12 +25,10 @@ public class Administrador extends Usuario {
         }
     }
 
-    public void criaSubcategoria (Categoria categoria, int quantidadeSubcategoria, String nomeSubcategoria) {
+    public void criaSubcategoria (Categoria categoria, String nomeSubcategoria) {
         if (categoria != null) {
-            for (int i = 0; i < quantidadeSubcategoria; i++) {
-                Categoria novaSubcategoria = new Categoria(nomeSubcategoria);
-                categoria.adicionaSubcategoria(novaSubcategoria);
-            }
+            Categoria novaSubcategoria = new Categoria(nomeSubcategoria);
+            categoria.adicionaSubcategoria(novaSubcategoria);
         } else {
             System.out.println("Não foi possível criar a Subcategoria");
         }

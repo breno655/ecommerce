@@ -57,8 +57,14 @@ public class Produto {
         this.quantidade = quantidade;
     }
 
-    public String toString () {
-        return String.format(" Nome: %s\n", nome)
+    public String toStringCliente () {
+        return String.format("      Nome: %s\n", nome)
+                + String.format("      Preço: R$%.2f\n", preco)
+                + String.format("      Descrição: %s\n", descricao);
+    }
+
+    public String toStringVendedor () {
+        return String.format("      Nome: %s\n", nome)
                 + String.format("      Preço: R$%.2f\n", preco)
                 + String.format("      Descrição: %s\n", descricao)
                 + String.format("      Quantidade: %s\n", quantidade);
