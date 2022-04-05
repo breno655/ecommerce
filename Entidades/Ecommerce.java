@@ -4,15 +4,13 @@ import java.util.*;
 
 public class Ecommerce {
 
-    Scanner scanner = new Scanner(System.in);
-
-    public String nome = "Cyber Feira";
+    public String nome;
     private Map<String, Categoria> dicionario;
     private List<Produto> todosOsProdutosDoEcommerce;
     private Map<String, Usuario> usuarios;
 
     public Ecommerce() {
-        this.nome = nome;
+        this.nome = "Cyber Feira";
         this.dicionario = new HashMap<>();
         this.todosOsProdutosDoEcommerce = new ArrayList<>();
         this.usuarios = new HashMap<>();
@@ -110,6 +108,8 @@ public class Ecommerce {
         }
         return true;
     }
+
+
 
     public List<Produto> getTodosOsProdutosDoEcommerce() {
         return todosOsProdutosDoEcommerce;

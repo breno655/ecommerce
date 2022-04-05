@@ -14,6 +14,10 @@ public class CarrinhoDeCompras {
         this.saldoTotalDaCompra = 0;
     }
 
+    public boolean verificaSaldoSuficienteParaCompra () {
+        return cliente.getSaldo() >= saldoTotalDaCompra;
+    }
+
     public void fazPrecoTotalDoCarrinho () {
         float precoTotalDaCompra = 0;
         for (Produto produto : carrinhoDeCompras) {

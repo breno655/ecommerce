@@ -99,6 +99,7 @@ public class Principal {
                                     String simOuNao = scanner.nextLine();
                                     if (simOuNao.equals("s")) {
                                         cliente.adicionarNoCarrinho(produto);
+                                        cliente.getCarrinhoDeCompras().fazPrecoTotalDoCarrinho();
                                     }
                                 } else if (opcaoCliente == 2) {
 
@@ -124,6 +125,7 @@ public class Principal {
                                                 String simOuNao = scanner.nextLine();
                                                 if (simOuNao.equals("s")) {
                                                     cliente.adicionarNoCarrinho(produto);
+                                                    cliente.getCarrinhoDeCompras().fazPrecoTotalDoCarrinho();
                                                 }
                                             }
                                             break;
@@ -134,10 +136,10 @@ public class Principal {
                                     cliente.exibeProdutosDoCarrinho();
                                 } else if (opcaoCliente == 4) {
 
-                                    System.out.println("Finalizar Compras...");
-                                    System.out.println("------------------------\n");
+                                    System.out.println("\nFinalizar Compras...");
+                                    System.out.println("------------------------");
                                     cliente.exibeProdutosDoCarrinho();
-                                    System.out.println("\n------------------------");
+                                    System.out.println("------------------------");
 
                                     System.out.println(" - Suas Informações - ");
                                     if (cliente.vericaEndereco()) {
@@ -155,8 +157,26 @@ public class Principal {
                                         cliente.setSaldo(saldo);
                                     }
 
-                                    System.out.println(cliente.exibePrecoTotalDaCompra());
+                                    System.out.print("Valor total da compra: R$");
+                                    cliente.exibePrecoTotalDaCompra();
 
+                                    System.out.println("\n------------------------");
+
+                                    System.out.println("Confirmar compra? [s/n]");
+                                    String simOuNao = scanner.nextLine();
+
+                                    if (simOuNao.equals("s")) {
+                                        boolean saldoSuficiente = cliente.getCarrinhoDeCompras().verificaSaldoSuficienteParaCompra();
+                                        if (saldoSuficiente) {
+                                            Pedido pedido = new Pedido();
+                                            pedido.registraPedido(cliente);
+                                            System.out.println("\nCompra confirmada! Seu pedido será entregue em instantes");
+                                        } else {
+                                            System.out.println("!Erro... Saldo Insuficiente :(");
+                                        }
+                                    } else {
+                                        System.out.println("* Sua compra não foi realizada *");
+                                    }
                                 }
 
                             } while (opcaoCliente != 5);
@@ -211,7 +231,7 @@ public class Principal {
                                         System.out.print("Escolha uma das opções para detalhes: ");
                                         String opcaoUsuario = scanner.nextLine();
                                         Vendedor usuario = (Vendedor) ecommerce.escolheUsuarios(opcaoUsuario);
-                                        //abaixo tem que criar uma execao pra uma possibilidade de nao ter produtos para nao dar nulo
+                                        //abaixo tem que criar uma excecao pra uma possibilidade de nao ter produtos para nao dar nulo
                                         usuario.exibeProdutosVendedor();
                                     }
 
@@ -359,11 +379,11 @@ public class Principal {
                                         categoriaEscolhida = ecommerce.escolheSubCat(nomeDaCategoria, categoriaEscolhida);
                                         if (categoriaEscolhida.possuiSubCats()) {
                                             categoriaEscolhida.exibeProdutos();
-                                            System.out.println("Opção: ");
+                                            System.out.print("Opção: ");
                                             String nomeProdutoEditar = scanner.nextLine();
                                             Produto produto = categoriaEscolhida.escolheProduto(nomeProdutoEditar);
 
-                                            System.out.print("Editar...\n1- Nome\n2- Preço\n3- Descrição\nOpção: ");
+                                            System.out.print("\nEditar...\n1- Nome\n2- Preço\n3- Descrição\nOpção: ");
                                             int opcaoEditar = Integer.parseInt(scanner.nextLine());
 
                                             String novoNome = "";
@@ -402,5 +422,3 @@ public class Principal {
         } while (tipoDeUsuario != 4) ;
     }
 }
-
-

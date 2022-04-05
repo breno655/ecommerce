@@ -1,8 +1,5 @@
 package Entidades;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Cliente extends Usuario {
 
     final int codigoCliente = 1;
