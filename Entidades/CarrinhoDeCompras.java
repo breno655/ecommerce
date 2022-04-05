@@ -7,14 +7,13 @@ public class CarrinhoDeCompras {
 
     private List<Produto> carrinhoDeCompras;
     private float saldoTotalDaCompra;
-    private Cliente cliente;
 
     public CarrinhoDeCompras () {
         this.carrinhoDeCompras = new ArrayList<>();
         this.saldoTotalDaCompra = 0;
     }
 
-    public boolean verificaSaldoSuficienteParaCompra () {
+    public boolean verificaSaldoSuficienteParaCompra (Cliente cliente) {
         return cliente.getSaldo() >= saldoTotalDaCompra;
     }
 
@@ -40,13 +39,5 @@ public class CarrinhoDeCompras {
 
     public void setSaldoTotalDaCompra(float saldoTotalDaCompra) {
         this.saldoTotalDaCompra = saldoTotalDaCompra;
-    }
-
-    public Cliente getCliente() {
-        return cliente;
-    }
-
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
     }
 }

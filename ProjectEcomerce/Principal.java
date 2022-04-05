@@ -162,11 +162,11 @@ public class Principal {
 
                                     System.out.println("\n------------------------");
 
-                                    System.out.println("Confirmar compra? [s/n]");
+                                    System.out.print("Confirmar compra? [s/n] ");
                                     String simOuNao = scanner.nextLine();
 
                                     if (simOuNao.equals("s")) {
-                                        boolean saldoSuficiente = cliente.getCarrinhoDeCompras().verificaSaldoSuficienteParaCompra();
+                                        boolean saldoSuficiente = cliente.getCarrinhoDeCompras().verificaSaldoSuficienteParaCompra(cliente);
                                         if (saldoSuficiente) {
                                             Pedido pedido = new Pedido();
                                             pedido.registraPedido(cliente);
