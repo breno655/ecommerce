@@ -1,8 +1,13 @@
 package ProjectEcomerce;
 
-import Entidades.*;
-
 import java.util.Scanner;
+
+import Entidades.Administrador;
+import Entidades.Categoria;
+import Entidades.Cliente;
+import Entidades.Ecommerce;
+import Entidades.Produto;
+import Entidades.Vendedor;
 
 public class Principal {
 
@@ -10,9 +15,9 @@ public class Principal {
 
         Ecommerce ecommerce = new Ecommerce();
 
-        Vendedor vendedorPadrao = new Vendedor("pedro", "loginpedro", "senhapedro");
-        Administrador administrador = new Administrador("thiago", "admin", "admin");
-        Cliente clientePadrao = new Cliente("breno", "loginbreno", "senhabreno");
+        Vendedor vendedorPadrao = new Vendedor("pedro", "loginpedro", "senhapedro", 3);
+        Administrador administrador = new Administrador("thiago", "admin", "admin", 2);
+        Cliente clientePadrao = new Cliente("breno", "loginbreno", "senhabreno", 1);
 
         // adicionei alguns usuarios no dicionarioUsuario, abaixo
         ecommerce.getUsuarios().put("admin", administrador);
@@ -22,34 +27,34 @@ public class Principal {
         // adicionei algumas categorias e produtos no dicionarioDosProdutos, abaixo
         Categoria categoriaJogo = new Categoria("jogo");
         Categoria subcategoriaFps = new Categoria("fps");
-        Produto produtoValorant = new Produto("valorant", 120, "melhor jogo de tiro", 100);
+        Produto produtoValorant = new Produto("valorant", 120, "melhor jogo de tiro", 100, 5555);
         categoriaJogo.getSubcategorias().add(subcategoriaFps);
         ecommerce.getDicionario().put("jogo", categoriaJogo);
         subcategoriaFps.getProdutos().add(produtoValorant);
-        ecommerce.getTodosOsProdutosDoEcommerce().add(produtoValorant);
+        ecommerce.getTodosOsProdutosDoEcommerce().put(5555, produtoValorant);
 
         Categoria categoriaEletronico = new Categoria("eletronico");
         Categoria subcategoriaCelular = new Categoria("celular");
-        Produto produtoIphone = new Produto("iphone", 5000, "última geração", 100);
+        Produto produtoIphone = new Produto("iphone", 5000, "Ãºltima geraÃ§Ã£o", 100, 8888);
         categoriaEletronico.getSubcategorias().add(subcategoriaCelular);
         ecommerce.getDicionario().put("eletronico", categoriaEletronico);
         subcategoriaCelular.getProdutos().add(produtoIphone);
-        ecommerce.getTodosOsProdutosDoEcommerce().add(produtoIphone);
+        ecommerce.getTodosOsProdutosDoEcommerce().put(8888, produtoIphone);
 
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("\nBem-vindo a Cyber Feira");
 
-        int tipoDeUsuario;
+        int codigoUsuario;
         do {
 
             System.out.print("Gostaria de acessar como:\n1- Cliente\n2- Administrador\n3- Vendedor\n4- Sair\n- Opção: ");
-            tipoDeUsuario = Integer.parseInt(scanner.nextLine());
+            codigoUsuario = Integer.parseInt(scanner.nextLine());
 
             System.out.print("\n1- Fazer Cadastro\n2- Fazer Login\n- Opção: ");
             int loginOuCadastro = Integer.parseInt(scanner.nextLine());
 
-            if (loginOuCadastro == 1 && tipoDeUsuario == 2) {
+            if (loginOuCadastro == 1 && codigoUsuario == 2) {
                 System.out.println("Erro! Não pode existir mais de um Administrador\n");
             } else if (loginOuCadastro == 1) {
                 System.out.println("\nCADASTRO");
@@ -61,7 +66,7 @@ public class Principal {
                 System.out.print("Sua Senha: ");
                 String senhaUsuario = scanner.nextLine();
 
-                ecommerce.cadastro(tipoDeUsuario, nomeUsuario, loginUsuario, senhaUsuario, ecommerce);
+                ecommerce.cadastro(codigoUsuario, nomeUsuario, loginUsuario, senhaUsuario, ecommerce);
 
             } else if (loginOuCadastro == 2) {
                 System.out.println("\nLOGIN");
@@ -71,10 +76,10 @@ public class Principal {
                 System.out.print("Sua Senha: ");
                 String senhaUsuario = scanner.nextLine();
 
-                boolean logado = ecommerce.login(loginUsuario, senhaUsuario, ecommerce);
+                boolean logado = ecommerce.login(loginUsuario, senhaUsuario, codigoUsuario, ecommerce);
                 if (logado) {
 
-                    switch (tipoDeUsuario) {
+                    switch (codigoUsuario) {
                         case 1:
 
                             int opcaoCliente;
@@ -82,7 +87,7 @@ public class Principal {
                                 Cliente cliente = (Cliente) ecommerce.buscarUsuario(loginUsuario);
 
                                 System.out.print("\n1- Buscar Produto\n2- Explorar as categorias e produtos" +
-                                        "\n3- Ver o carrinho de compras\n4- Finalizar sua Compra\n5- deslogar\n- Opção: ");
+                                        "\n3- Ver o carrinho de compras\n4- Finalizar sua Compra\n5- Adicionar saldo em conta\n6- Deslogar\n- OpÃ§Ã£o: ");
                                 opcaoCliente = Integer.parseInt(scanner.nextLine());
 
                                 if (opcaoCliente == 1) {
@@ -93,7 +98,7 @@ public class Principal {
                                     if (produto != null) {
                                         System.out.println("\n  Produto: " + produtoBuscado.toUpperCase() + "\n" + produto.toStringCliente());
                                     } else {
-                                        System.out.println("Erro! Produto não encontrado");
+                                        System.out.println("Erro! Produto nÃ£o encontrado");
                                     }
                                     System.out.print("Quer adicionar ao seu carrinho? [s/n] ");
                                     String simOuNao = scanner.nextLine();
@@ -105,13 +110,13 @@ public class Principal {
 
                                     System.out.println("Explorar as categorias e produtos");
                                     ecommerce.exibeCategorias();
-                                    System.out.print("Opção: ");
+                                    System.out.print("OpÃ§Ã£o: ");
                                     String nomeDaCategoria = scanner.nextLine();
                                     Categoria categoriaEscolhida = ecommerce.escolheCategoria(nomeDaCategoria);
 
                                     while (categoriaEscolhida.possuiSubCats()) {
                                         categoriaEscolhida.exibeSubcategorias();
-                                        System.out.print("Opção: ");
+                                        System.out.print("OpÃ§Ã£o: ");
                                         nomeDaCategoria = scanner.nextLine();
                                         categoriaEscolhida = ecommerce.escolheSubCat(nomeDaCategoria, categoriaEscolhida);
                                         if (categoriaEscolhida.possuiSubCats()) {
@@ -141,45 +146,50 @@ public class Principal {
                                     cliente.exibeProdutosDoCarrinho();
                                     System.out.println("------------------------");
 
-                                    System.out.println(" - Suas Informações - ");
-                                    if (cliente.vericaEndereco()) {
-                                        System.out.println("Endereço: " + cliente.getEndereco());
+                                    System.out.println(" - Suas InformaÃ§Ãµes - ");
+                                    if (cliente.verificaEndereco()) {
+                                        System.out.println("EndereÃ§o: " + cliente.getEndereco());
                                     } else {
-                                        System.out.print("Informe seu Endereço: ");
+                                        System.out.print("Informe seu EndereÃ§o: ");
                                         String endereco = scanner.nextLine();
                                         cliente.setEndereco(endereco);
                                     }
-                                    if (cliente.vericaSaldo()){
-                                        System.out.println("Saldo disponivel: R$" + cliente.getSaldo());
-                                    } else {
-                                        System.out.print("Informe seu Saldo: R$");
-                                        float saldo = Float.parseFloat(scanner.nextLine());
-                                        cliente.setSaldo(saldo);
-                                    }
+                                    if (cliente.verificaSaldo()) {
+                                        System.out.println("Saldo disponivel: R$" + cliente.getSaldoCliente());
 
-                                    System.out.print("Valor total da compra: R$");
-                                    cliente.exibePrecoTotalDaCompra();
+                                        System.out.print("Valor total da compra: R$");
+                                        cliente.exibePrecoTotalDaCompra();
 
-                                    System.out.println("\n------------------------");
+                                        System.out.println("\n------------------------");
 
-                                    System.out.print("Confirmar compra? [s/n] ");
-                                    String simOuNao = scanner.nextLine();
+                                        System.out.print("Confirmar compra? [s/n] ");
+                                        String simOuNao = scanner.nextLine();
 
-                                    if (simOuNao.equals("s")) {
-                                        boolean saldoSuficiente = cliente.getCarrinhoDeCompras().verificaSaldoSuficienteParaCompra(cliente);
-                                        if (saldoSuficiente) {
-                                            Pedido pedido = new Pedido();
-                                            pedido.registraPedido(cliente);
-                                            System.out.println("\nCompra confirmada! Seu pedido será entregue em instantes");
+                                        if (simOuNao.equals("s")) {
+                                            boolean saldoSuficiente = cliente.getCarrinhoDeCompras().verificaSaldoSuficienteParaCompra(cliente);
+                                            if (saldoSuficiente) {
+                                                cliente.getPedidos().registraPedido(cliente);
+                                                System.out.println("\nCompra confirmada! Seu pedido serÃ¡ entregue em instantes");
+                                            } else {
+                                                System.out.println("!Erro... Saldo Insuficiente :(");
+                                            }
                                         } else {
-                                            System.out.println("!Erro... Saldo Insuficiente :(");
+                                            System.out.println("* Sua compra nÃ£o foi realizada *");
                                         }
-                                    } else {
-                                        System.out.println("* Sua compra não foi realizada *");
+                                    }
+                                } else if (opcaoCliente == 5) {
+                                    System.out.println("Saldo a adicionar: !");
+                                    float saldo = Float.parseFloat(scanner.nextLine());
+                                    //cliente.setSaldo(saldo);
+                                    if (cliente.adicionaSaldo(saldo)) {
+                                        System.out.println("Saldo adicionado com sucesso!");
+                                        System.out.println("Saldo atual: !" + cliente.getSaldoCliente());
                                     }
                                 }
 
-                            } while (opcaoCliente != 5);
+                            }
+
+                            while (opcaoCliente != 6);
 
                             break;
 
@@ -215,7 +225,7 @@ public class Principal {
                                     }
                                 } else if (opcaoCrudCategoria == 2) {
                                     System.out.println("LISTAR\n1- Lista de categorias e subcategorias\n2- Lista de vendedores" +
-                                            "\nOpção: ");
+                                            "\nOpÃ§Ã£o: ");
                                     int opcaoLista = Integer.parseInt(scanner.nextLine());
 
                                     if (opcaoLista == 1) {
@@ -228,11 +238,11 @@ public class Principal {
                                     } else if (opcaoLista == 2) {
                                         System.out.println("- Vendedores e Clientes -");
                                         ecommerce.exibeUsuarios();
-                                        System.out.print("Escolha uma das opções para detalhes: ");
+                                        System.out.print("Escolha uma das opÃ§Ãµes para detalhes: ");
                                         String opcaoUsuario = scanner.nextLine();
-                                        Vendedor usuario = (Vendedor) ecommerce.escolheUsuarios(opcaoUsuario);
+                                        Vendedor vendedor = (Vendedor) ecommerce.escolheUsuarios(opcaoUsuario);
                                         //abaixo tem que criar uma excecao pra uma possibilidade de nao ter produtos para nao dar nulo
-                                        usuario.exibeProdutosVendedor();
+                                        vendedor.exibeProdutosVendedor();
                                     }
 
                                 } else if (opcaoCrudCategoria == 3) {
@@ -242,7 +252,7 @@ public class Principal {
                                     int categoriaOuSubcategoria = Integer.parseInt(scanner.nextLine());
 
                                     if (categoriaOuSubcategoria == 1) {
-                                        System.out.println("Falta essa função linha 152 main");
+                                        System.out.println("Falta essa funÃ§Ã£o linha 152 main");
                                         administrador.removerCategoria(ecommerce.getDicionario());
                                     } else if (categoriaOuSubcategoria == 2) {
 
@@ -254,7 +264,7 @@ public class Principal {
                                         while (subcategoriaEscolhida.possuiSubCats()) {
                                             subcategoriaEscolhida.exibeSubcategorias();
 
-                                            System.out.print("sua SUBCATEGORIA está aqui? [s/n] ");
+                                            System.out.print("sua SUBCATEGORIA estÃ¡ aqui? [s/n] ");
                                             String simOuNao = scanner.nextLine();
                                             if (simOuNao.equals("s")) {
                                                 Categoria guardarListaParaRemocao = subcategoriaEscolhida;
@@ -268,7 +278,7 @@ public class Principal {
 
                                         }
                                         if (!subcategoriaEscolhida.possuiSubCats()) {
-                                            System.out.println(escolhaAsCategorias + " não tem subcategorias");
+                                            System.out.println(escolhaAsCategorias + " nÃ£o tem subcategorias");
                                         }
 
                                     }
@@ -302,9 +312,9 @@ public class Principal {
 
                                     System.out.print("Nome do produto: ");
                                     String nome = scanner.nextLine();
-                                    System.out.print("Preço do produto: R$");
+                                    System.out.print("PreÃ§o do produto: R$");
                                     float preco = Float.parseFloat(scanner.nextLine());
-                                    System.out.print("Descrição do produto: ");
+                                    System.out.print("DescriÃ§Ã£o do produto: ");
                                     String descricao = scanner.nextLine();
                                     System.out.print("Quantidade de produtos: ");
                                     int quantidade = Integer.parseInt(scanner.nextLine());
@@ -312,15 +322,15 @@ public class Principal {
 
                                     Produto produto = vendedor.criaProdutos(nome, preco, descricao, quantidade, ecommerce);
 
-                                    System.out.println("Você quer adicionar os produtos em");
+                                    System.out.println("VocÃª quer adicionar os produtos em");
                                     ecommerce.exibeCategorias();
-                                    System.out.print("Opção: ");
+                                    System.out.print("OpÃ§Ã£o: ");
                                     String nomeDaCategoria = scanner.nextLine();
                                     Categoria categoriaEscolhida = ecommerce.escolheCategoria(nomeDaCategoria);
 
                                     while (categoriaEscolhida.possuiSubCats()) {
                                         categoriaEscolhida.exibeSubcategorias();
-                                        System.out.print("Opção: ");
+                                        System.out.print("OpÃ§Ã£o: ");
                                         nomeDaCategoria = scanner.nextLine();
                                         categoriaEscolhida = ecommerce.escolheSubCat(nomeDaCategoria, categoriaEscolhida);
                                         if (categoriaEscolhida.possuiSubCats()) {
@@ -344,20 +354,20 @@ public class Principal {
 
                                 } else if (opcaoCrudProduto == 3) {
 
-                                    System.out.println("Você quer REMOVER os produtos em");
+                                    System.out.println("VocÃª quer REMOVER os produtos em");
                                     ecommerce.exibeCategorias();
-                                    System.out.print("Opção: ");
+                                    System.out.print("OpÃ§Ã£o: ");
                                     String nomeDaCategoria = scanner.nextLine();
                                     Categoria categoriaEscolhida = ecommerce.escolheCategoria(nomeDaCategoria);
 
                                     while (categoriaEscolhida.possuiSubCats()) {
                                         categoriaEscolhida.exibeSubcategorias();
-                                        System.out.print("Opção: ");
+                                        System.out.print("OpÃ§Ã£o: ");
                                         nomeDaCategoria = scanner.nextLine();
                                         categoriaEscolhida = ecommerce.escolheSubCat(nomeDaCategoria, categoriaEscolhida);
                                         if (categoriaEscolhida.possuiSubCats()) {
                                             categoriaEscolhida.exibeProdutos();
-                                            System.out.println("Opção: ");
+                                            System.out.println("OpÃ§Ã£o: ");
                                             String nomeProdutoRemover = scanner.nextLine();
                                             vendedor.removerProdutos(categoriaEscolhida, nomeProdutoRemover, ecommerce);
                                             break;
@@ -366,24 +376,24 @@ public class Principal {
 
                                 } else if (opcaoCrudProduto == 4) {
 
-                                    System.out.println("Você quer EDITAR os produtos em");
+                                    System.out.println("VocÃª quer EDITAR os produtos em");
                                     ecommerce.exibeCategorias();
-                                    System.out.print("Opção: ");
+                                    System.out.print("OpÃ§Ã£o: ");
                                     String nomeDaCategoria = scanner.nextLine();
                                     Categoria categoriaEscolhida = ecommerce.escolheCategoria(nomeDaCategoria);
 
                                     while (categoriaEscolhida.possuiSubCats()) {
                                         categoriaEscolhida.exibeSubcategorias();
-                                        System.out.print("Opção: ");
+                                        System.out.print("OpÃ§Ã£o: ");
                                         nomeDaCategoria = scanner.nextLine();
                                         categoriaEscolhida = ecommerce.escolheSubCat(nomeDaCategoria, categoriaEscolhida);
                                         if (categoriaEscolhida.possuiSubCats()) {
                                             categoriaEscolhida.exibeProdutos();
-                                            System.out.print("Opção: ");
+                                            System.out.print("OpÃ§Ã£o: ");
                                             String nomeProdutoEditar = scanner.nextLine();
                                             Produto produto = categoriaEscolhida.escolheProduto(nomeProdutoEditar);
 
-                                            System.out.print("\nEditar...\n1- Nome\n2- Preço\n3- Descrição\nOpção: ");
+                                            System.out.print("\nEditar...\n1- Nome\n2- PreÃ§o\n3- DescriÃ§Ã£o\nOpÃ§Ã£o: ");
                                             int opcaoEditar = Integer.parseInt(scanner.nextLine());
 
                                             String novoNome = "";
@@ -393,10 +403,10 @@ public class Principal {
                                                 System.out.print("Nome do novo produto: ");
                                                 novoNome = scanner.nextLine();
                                             } else if (opcaoEditar == 2) {
-                                                System.out.print("Preço do novo produto: ");
+                                                System.out.print("PreÃ§o do novo produto: ");
                                                 novoPreco = Float.parseFloat(scanner.nextLine());
                                             } else if (opcaoEditar == 3) {
-                                                System.out.print("Descrição do novo produto: ");
+                                                System.out.print("DescriÃ§Ã£o do novo produto: ");
                                                 novaDescricao = scanner.nextLine();
                                             }
                                             vendedor.editarProdutos(opcaoEditar, produto, novoNome, novoPreco, novaDescricao);
@@ -419,6 +429,6 @@ public class Principal {
                     }
                 }
             }
-        } while (tipoDeUsuario != 4) ;
+        } while (codigoUsuario != 4);
     }
 }

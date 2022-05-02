@@ -5,11 +5,13 @@ public class Usuario {
     protected String nome;
     protected String login;
     protected String senha;
+    protected int codigo;
 
-    public Usuario (String nome, String login, String senha) {
+    public Usuario (String nome, String login, String senha, int codigo) {
         this.login = login;
         this.nome = nome;
         this.senha = senha;
+        this.codigo = codigo;
     }
 
     public Usuario() {

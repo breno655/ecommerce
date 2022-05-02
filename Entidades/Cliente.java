@@ -2,41 +2,55 @@ package Entidades;
 
 public class Cliente extends Usuario {
 
-    final int codigoCliente = 1;
     private CarrinhoDeCompras carrinhoDeCompras;
     private String endereco;
-    private float saldo;
+    private float saldoCliente;
+    private Pedido pedidos;
 
-    public Cliente () {
+    public Cliente() {
 
     }
 
-    public Cliente (String nome, String login, String senha) {
-        super(nome, login, senha);
+    public Cliente(String nome, String login, String senha, int codigo) {
+        super(nome, login, senha, codigo);
+        this.nome = nome;
+        this.login = login;
+        this.senha = senha;
+        this.codigo = 1;
         this.carrinhoDeCompras = new CarrinhoDeCompras();
     }
 
-    public void exibeProdutosDoCarrinho () {
+
+    public void exibeProdutosDoCarrinho() {
         int totalProdutos = 0;
         for (Produto produto : carrinhoDeCompras.getCarrinhoDeCompras()) {
             System.out.println(++totalProdutos + ". " + produto.getNome());
         }
     }
 
-    public void exibePrecoTotalDaCompra () {
+    public void exibePrecoTotalDaCompra() {
         System.out.print(carrinhoDeCompras.getSaldoTotalDaCompra());
     }
 
-    public void adicionarNoCarrinho (Produto produtoAdicionado) {
+    public void adicionarNoCarrinho(Produto produtoAdicionado) {
         carrinhoDeCompras.getCarrinhoDeCompras().add(produtoAdicionado);
     }
 
-    public boolean vericaEndereco () {
+    public boolean verificaEndereco() {
         return endereco != null;
     }
 
-    public boolean vericaSaldo () {
-        return saldo != 0.0;
+    public boolean verificaSaldo() {
+        return saldoCliente != 0.0;
+    }
+
+    public boolean adicionaSaldo(float saldo) {
+
+        if (saldo > 0) {
+            this.saldoCliente += saldo;
+            return true;
+        }
+        return false;
     }
 
 
@@ -48,19 +62,20 @@ public class Cliente extends Usuario {
         this.endereco = endereco;
     }
 
-    public float getSaldo() {
-        return saldo;
-    }
-
-    public void setSaldo(float saldo) {
-        this.saldo = saldo;
+    public float getSaldoCliente() {
+        return saldoCliente;
     }
 
     public CarrinhoDeCompras getCarrinhoDeCompras() {
         return carrinhoDeCompras;
     }
 
-    public void setCarrinhoDeCompras(CarrinhoDeCompras carrinhoDeCompras) {
-        this.carrinhoDeCompras = carrinhoDeCompras;
+    public Pedido getPedidos() {
+        return pedidos;
     }
+
+    public void setPedidos(Pedido pedidos) {
+        this.pedidos = pedidos;
+    }
+
 }

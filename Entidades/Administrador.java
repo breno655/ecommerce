@@ -6,17 +6,17 @@ public class Administrador extends Usuario {
 
     Scanner scanner = new Scanner(System.in);
 
-    final int codigoAdministrador = 0;
-
     public Administrador () {
 
     }
 
-    public Administrador (String nome, String login, String senha) {
-        super(nome, login, senha);
+    public Administrador (String nome, String login, String senha, int codigo) {
+        super(nome, login, senha, codigo);
         this.login = "admin";
         this.senha = "admin";
+        this.codigo = 2;
     }
+
 
     public void criaCategoria(Map<String, Categoria> dicionario, String nomeNovaCategoria, int quantidadeCategoria) {
         for (int i = 0; i < quantidadeCategoria; i++) {
@@ -51,8 +51,6 @@ public class Administrador extends Usuario {
         for (int i = 0; i < quantidadeRemoverCategoria; i++) {
             System.out.println("Nome da categoria a ser removida? ");
             String categoriaARemover = scanner.nextLine();
-
-            //dicionario.keySet().removeIf(keySet -> Objects.equals(keySet.getNome(), categoriaARemover));
 
         }
     }

@@ -6,13 +6,13 @@ public class Ecommerce {
 
     public String nome;
     private Map<String, Categoria> dicionario;
-    private List<Produto> todosOsProdutosDoEcommerce;
+    private Map<Integer, Produto> todosOsProdutosDoEcommerce;
     private Map<String, Usuario> usuarios;
 
     public Ecommerce() {
         this.nome = "Cyber Feira";
         this.dicionario = new HashMap<>();
-        this.todosOsProdutosDoEcommerce = new ArrayList<>();
+        this.todosOsProdutosDoEcommerce = new HashMap<>();
         this.usuarios = new HashMap<>();
     }
 
@@ -63,7 +63,7 @@ public class Ecommerce {
     }
 
     public Produto buscarProdutos (String produtoBuscado) {
-        for (Produto produto : todosOsProdutosDoEcommerce) {
+        for (Produto produto : getTodosOsProdutosDoEcommerce().values()) {
             if (produto.getNome().equals(produtoBuscado)) {
                 return produto;
             }
@@ -78,10 +78,10 @@ public class Ecommerce {
         } return null;
     }
 
-    public boolean verficaLogin(String loginDoUsuario, String senhaUsuario) {
+    public boolean verificaLogin(String loginDoUsuario, String senhaUsuario, int codigoUsuario) {
         boolean validado = false;
         for (Usuario usuario : usuarios.values()) {
-            if (usuario.login.equals(loginDoUsuario) && usuario.senha.equals(senhaUsuario)) {
+            if (usuario.login.equals(loginDoUsuario) && usuario.senha.equals(senhaUsuario) && usuario.codigo == codigoUsuario) {
                 validado = true;
                 break;
             }
@@ -89,35 +89,27 @@ public class Ecommerce {
         return validado;
     }
 
-    public void cadastro (int tipoDeUsuario, String nomeUsuario, String loginUsuario, String senhaUsuario, Ecommerce ecommerce) {
-        if (tipoDeUsuario == 1) {
-            Cliente cliente = new Cliente(nomeUsuario, loginUsuario, senhaUsuario);
+
+    public void cadastro (int codigo, String nomeUsuario, String loginUsuario, String senhaUsuario, Ecommerce ecommerce) {
+        if (codigo == 1) {
+            Cliente cliente = new Cliente(nomeUsuario, loginUsuario, senhaUsuario, codigo);
             ecommerce.getUsuarios().put(loginUsuario, cliente);
-        } else if (tipoDeUsuario == 2) {
+        } else if (codigo == 2) {
             System.out.println("Não pode ser criado mais de um ADMINISTRADOR");
-        } else if (tipoDeUsuario == 3) {
-            Vendedor vendedor = new Vendedor(nomeUsuario, loginUsuario, senhaUsuario);
+        } else if (codigo == 3) {
+            Vendedor vendedor = new Vendedor(nomeUsuario, loginUsuario, senhaUsuario, codigo );
             ecommerce.getUsuarios().put(loginUsuario, vendedor);
         }
     }
 
-    public boolean login (String loginUsuario, String senhaUsuario, Ecommerce ecommerce) {
-        if ((!ecommerce.verficaLogin(loginUsuario, senhaUsuario))) {
-            System.out.println("Não existe ou foi digitado errado");
+    public boolean login (String loginUsuario, String senhaUsuario, int codigo,Ecommerce ecommerce) {
+        if ((!ecommerce.verificaLogin(loginUsuario, senhaUsuario, codigo))) {
+            System.out.println("\nUsuário e/ou senha estão errados.\nTente novamente.\n");
             return false;
         }
         return true;
     }
 
-
-
-    public List<Produto> getTodosOsProdutosDoEcommerce() {
-        return todosOsProdutosDoEcommerce;
-    }
-
-    public void setTodosOsProdutosDoEcommerce(List<Produto> produtos) {
-        this.todosOsProdutosDoEcommerce = produtos;
-    }
 
     public Map<String, Usuario> getUsuarios() {
         return usuarios;
@@ -133,5 +125,13 @@ public class Ecommerce {
 
     public void setDicionario(Map<String, Categoria> dicionario) {
         this.dicionario = dicionario;
+    }
+
+    public Map<Integer, Produto> getTodosOsProdutosDoEcommerce() {
+        return todosOsProdutosDoEcommerce;
+    }
+
+    public void setTodosOsProdutosDoEcommerce(Map<Integer, Produto> todosOsProdutosDoEcommerce) {
+        this.todosOsProdutosDoEcommerce = todosOsProdutosDoEcommerce;
     }
 }

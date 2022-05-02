@@ -6,11 +6,11 @@ import java.util.Map;
 
 public class Pedido {
 
-    private String status;
+    
+    private Map<Integer, Float> precosTotais;
     private Map<Integer, List<Produto>> pedidosRegistrados;
 
     public Pedido () {
-        this.status = "Pedido Enviado";
         this.pedidosRegistrados = new HashMap<>();
     }
 
@@ -19,12 +19,15 @@ public class Pedido {
         pedidosRegistrados.put(++numeroRegistro, cliente.getCarrinhoDeCompras().getCarrinhoDeCompras());
     }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
+    public void calculaPrecoDoPedido () {
+        float precoTotalDaCompra = 0;
+        int indice = 0;
+        for (List<Produto> produtos : pedidosRegistrados.values()) {
+            for (Produto produto : produtos) {
+                precoTotalDaCompra += produto.getPreco();
+            }
+            precosTotais.put(++indice, precoTotalDaCompra);
+        }
     }
 
     public Map<Integer, List<Produto>> getPedidosRegistrados() {
@@ -33,5 +36,13 @@ public class Pedido {
 
     public void setPedidosRegistrados(Map<Integer, List<Produto>> pedidosRegistrados) {
         this.pedidosRegistrados = pedidosRegistrados;
+    }
+
+    public Map<Integer, Float> getPrecosTotais() {
+        return precosTotais;
+    }
+
+    public void setPrecosTotais(Map<Integer, Float> precosTotais) {
+        this.precosTotais = precosTotais;
     }
 }

@@ -1,29 +1,28 @@
 package Entidades;
-
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Scanner;
-
+import Exception.Enums.ProdutoEnum;
 public class Produto {
 
     private String nome;
     private float preco;
     private String descricao;
     private int quantidade;
+    private int codigoProduto;
+    private ProdutoEnum status;
 
-    Scanner scanner = new Scanner(System.in);
-
-    public Produto (String nome, float preco, String descricao, int quantidade) {
+    public Produto (String nome, float preco, String descricao, int quantidade, int codigoProduto, ProdutoEnum status) {
         this.nome = nome;
         this.preco = preco;
         this.descricao = descricao;
         this.quantidade = quantidade;
+        this.codigoProduto = codigoProduto;
+        this.status = status;
     }
+
 
     public Produto () {
 
     }
+
 
     public String getNome() {
         return nome;
@@ -70,4 +69,11 @@ public class Produto {
                 + String.format("      Quantidade: %s\n", quantidade);
     }
 
+    public int getCodigoProduto() {
+        return codigoProduto;
+    }
+
+    public void setCodigoProduto(int codigoProduto) {
+        this.codigoProduto = codigoProduto;
+    }
 }

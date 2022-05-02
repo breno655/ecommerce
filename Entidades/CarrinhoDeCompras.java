@@ -14,7 +14,7 @@ public class CarrinhoDeCompras {
     }
 
     public boolean verificaSaldoSuficienteParaCompra (Cliente cliente) {
-        return cliente.getSaldo() >= saldoTotalDaCompra;
+        return cliente.getSaldoCliente() >= saldoTotalDaCompra;
     }
 
     public void fazPrecoTotalDoCarrinho () {
