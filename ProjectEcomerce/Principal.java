@@ -8,6 +8,7 @@ import Entidades.Cliente;
 import Entidades.Ecommerce;
 import Entidades.Produto;
 import Entidades.Vendedor;
+import enums.ProdutoEnum;
 
 public class Principal {
 
@@ -15,9 +16,9 @@ public class Principal {
 
         Ecommerce ecommerce = new Ecommerce();
 
-        Vendedor vendedorPadrao = new Vendedor("pedro", "loginpedro", "senhapedro", 3);
+        Vendedor vendedorPadrao = new Vendedor("pedro", "pp", "pp", 3);
         Administrador administrador = new Administrador("thiago", "admin", "admin", 2);
-        Cliente clientePadrao = new Cliente("breno", "loginbreno", "senhabreno", 1);
+        Cliente clientePadrao = new Cliente("breno", "br", "br", 1);
 
         // adicionei alguns usuarios no dicionarioUsuario, abaixo
         ecommerce.getUsuarios().put("admin", administrador);
@@ -27,7 +28,7 @@ public class Principal {
         // adicionei algumas categorias e produtos no dicionarioDosProdutos, abaixo
         Categoria categoriaJogo = new Categoria("jogo");
         Categoria subcategoriaFps = new Categoria("fps");
-        Produto produtoValorant = new Produto("valorant", 120, "melhor jogo de tiro", 100, 5555);
+        Produto produtoValorant = new Produto("valorant", 120, "melhor jogo de tiro", 100, 5555, ProdutoEnum.NÃO_ENVIADO);
         categoriaJogo.getSubcategorias().add(subcategoriaFps);
         ecommerce.getDicionario().put("jogo", categoriaJogo);
         subcategoriaFps.getProdutos().add(produtoValorant);
@@ -35,7 +36,7 @@ public class Principal {
 
         Categoria categoriaEletronico = new Categoria("eletronico");
         Categoria subcategoriaCelular = new Categoria("celular");
-        Produto produtoIphone = new Produto("iphone", 5000, "Ãºltima geraÃ§Ã£o", 100, 8888);
+        Produto produtoIphone = new Produto("iphone", 5000, "Ãºltima geraÃ§Ã£o", 100, 8888, ProdutoEnum.NÃO_ENVIADO);
         categoriaEletronico.getSubcategorias().add(subcategoriaCelular);
         ecommerce.getDicionario().put("eletronico", categoriaEletronico);
         subcategoriaCelular.getProdutos().add(produtoIphone);
@@ -50,6 +51,11 @@ public class Principal {
 
             System.out.print("Gostaria de acessar como:\n1- Cliente\n2- Administrador\n3- Vendedor\n4- Sair\n- Opção: ");
             codigoUsuario = Integer.parseInt(scanner.nextLine());
+
+            if (codigoUsuario >= 4) {
+                System.out.println("\nVocê optou por sair,\nprograma encerrado com sucesso.");
+                System.exit(0);
+            }
 
             System.out.print("\n1- Fazer Cadastro\n2- Fazer Login\n- Opção: ");
             int loginOuCadastro = Integer.parseInt(scanner.nextLine());
@@ -168,7 +174,10 @@ public class Principal {
                                         if (simOuNao.equals("s")) {
                                             boolean saldoSuficiente = cliente.getCarrinhoDeCompras().verificaSaldoSuficienteParaCompra(cliente);
                                             if (saldoSuficiente) {
-                                                cliente.getPedidos().registraPedido(cliente);
+                                                //cliente.getPedidos().registraPedido(cliente);
+
+                                                cliente.registraPedido(); // aqui ele coleta os produtos do carrinho e registra como pedido efetuado
+
                                                 System.out.println("\nCompra confirmada! Seu pedido serÃ¡ entregue em instantes");
                                             } else {
                                                 System.out.println("!Erro... Saldo Insuficiente :(");
@@ -236,8 +245,9 @@ public class Principal {
                                         Categoria categoria = ecommerce.escolheCategoria(escolhaAsCategorias);
                                         ecommerce.exibeSubCats(categoria);
                                     } else if (opcaoLista == 2) {
-                                        System.out.println("- Vendedores e Clientes -");
-                                        ecommerce.exibeUsuarios();
+                                        System.out.println("- Vendedores -");
+                                        int codigoDoVendedor = new Vendedor().getCodigoVendedor();
+                                        ecommerce.exibeUsuarios(codigoDoVendedor);
                                         System.out.print("Escolha uma das opÃ§Ãµes para detalhes: ");
                                         String opcaoUsuario = scanner.nextLine();
                                         Vendedor vendedor = (Vendedor) ecommerce.escolheUsuarios(opcaoUsuario);
@@ -393,7 +403,7 @@ public class Principal {
                                             String nomeProdutoEditar = scanner.nextLine();
                                             Produto produto = categoriaEscolhida.escolheProduto(nomeProdutoEditar);
 
-                                            System.out.print("\nEditar...\n1- Nome\n2- PreÃ§o\n3- DescriÃ§Ã£o\nOpÃ§Ã£o: ");
+                                            System.out.print("\nEditar...\n1- Nome\n2- Preço\n3- Descrição\n4- Editar\nOpÃ§Ã£o: ");
                                             int opcaoEditar = Integer.parseInt(scanner.nextLine());
 
                                             String novoNome = "";
@@ -408,6 +418,15 @@ public class Principal {
                                             } else if (opcaoEditar == 3) {
                                                 System.out.print("DescriÃ§Ã£o do novo produto: ");
                                                 novaDescricao = scanner.nextLine();
+                                            }else if (opcaoEditar == 4) {
+                                                System.out.println("Status: "
+                                                        + "\nNÃO_ENVIADO"
+                                                        + "\nENVIADO"
+                                                        + "\nENTREGUE\n ");
+                                                String novoStatus = scanner.nextLine();
+                                                produto.alteraStatus(novoStatus.toUpperCase());
+                                                System.out.println("Status do produto alterado para: "+ produto.getStatus());
+
                                             }
                                             vendedor.editarProdutos(opcaoEditar, produto, novoNome, novoPreco, novaDescricao);
                                             break;
@@ -428,7 +447,9 @@ public class Principal {
                             break;
                     }
                 }
+            } if (loginOuCadastro>2) {
+                main(args);
             }
-        } while (codigoUsuario != 4);
+        } while (codigoUsuario >= 4);
     }
 }

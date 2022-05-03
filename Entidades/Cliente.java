@@ -1,11 +1,16 @@
 package Entidades;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class Cliente extends Usuario {
 
     private CarrinhoDeCompras carrinhoDeCompras;
     private String endereco;
     private float saldoCliente;
-    private Pedido pedidos;
+    private Map<Integer, Float> precosTotais;
+    private Map<Integer, Pedido> pedidosRegistrados;
 
     public Cliente() {
 
@@ -18,22 +23,24 @@ public class Cliente extends Usuario {
         this.senha = senha;
         this.codigo = 1;
         this.carrinhoDeCompras = new CarrinhoDeCompras();
+        this.pedidosRegistrados = new HashMap<>();
+        this.precosTotais = new HashMap<>();
     }
 
 
     public void exibeProdutosDoCarrinho() {
         int totalProdutos = 0;
-        for (Produto produto : carrinhoDeCompras.getCarrinhoDeCompras()) {
+        for (Produto produto : this.carrinhoDeCompras.getComprasDoCarrinho()) {
             System.out.println(++totalProdutos + ". " + produto.getNome());
         }
     }
 
-    public void exibePrecoTotalDaCompra() {
-        System.out.print(carrinhoDeCompras.getSaldoTotalDaCompra());
+    public void exibePrecoTotalDaCompra() { //trocar para metodo vindo do Pedido
+        System.out.print(this.carrinhoDeCompras.getSaldoTotalDaCompra());
     }
 
     public void adicionarNoCarrinho(Produto produtoAdicionado) {
-        carrinhoDeCompras.getCarrinhoDeCompras().add(produtoAdicionado);
+        this.carrinhoDeCompras.getComprasDoCarrinho().add(produtoAdicionado);
     }
 
     public boolean verificaEndereco() {
@@ -45,7 +52,6 @@ public class Cliente extends Usuario {
     }
 
     public boolean adicionaSaldo(float saldo) {
-
         if (saldo > 0) {
             this.saldoCliente += saldo;
             return true;
@@ -53,6 +59,24 @@ public class Cliente extends Usuario {
         return false;
     }
 
+    public void registraPedido () {
+        List<Produto> listaDeProdutosDoCarrinho = this.carrinhoDeCompras.getComprasDoCarrinho();
+        Pedido pedidoCriado = new Pedido(listaDeProdutosDoCarrinho);
+        pedidosRegistrados.put(pedidoCriado.getCodigoDoPedido(), pedidoCriado);
+        limpaCarrinho();
+    }
+
+    public void limpaCarrinho () {
+        this.carrinhoDeCompras.getComprasDoCarrinho().clear();
+    }
+
+    public Map<Integer, Pedido> getPedidosRegistrados() {
+        return pedidosRegistrados;
+    }
+
+    public Map<Integer, Float> getPrecosTotais() {
+        return precosTotais;
+    }
 
     public String getEndereco() {
         return endereco;
@@ -70,12 +94,5 @@ public class Cliente extends Usuario {
         return carrinhoDeCompras;
     }
 
-    public Pedido getPedidos() {
-        return pedidos;
-    }
-
-    public void setPedidos(Pedido pedidos) {
-        this.pedidos = pedidos;
-    }
 
 }

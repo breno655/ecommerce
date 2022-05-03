@@ -16,9 +16,15 @@ public class Ecommerce {
         this.usuarios = new HashMap<>();
     }
 
-    public void exibeUsuarios () {
+    public void listaVendedoresESeusProdutos(String vendedor) {
+
+    }
+
+    public void exibeUsuarios (int tipoUsuario) {
         for (Usuario usuario : usuarios.values()) {
-            System.out.println("- " + usuario.getNome().toUpperCase());
+            if (usuario.codigo == tipoUsuario) {
+                System.out.println("- " + usuario.getNome().toUpperCase());
+            }
         }
     }
 

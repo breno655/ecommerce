@@ -1,5 +1,6 @@
 package Entidades;
-import Exception.Enums.ProdutoEnum;
+import enums.ProdutoEnum;
+
 public class Produto {
 
     private String nome;
@@ -9,7 +10,7 @@ public class Produto {
     private int codigoProduto;
     private ProdutoEnum status;
 
-    public Produto (String nome, float preco, String descricao, int quantidade, int codigoProduto, ProdutoEnum status) {
+    public Produto(String nome, float preco, String descricao, int quantidade, int codigoProduto, ProdutoEnum status) {
         this.nome = nome;
         this.preco = preco;
         this.descricao = descricao;
@@ -18,9 +19,18 @@ public class Produto {
         this.status = status;
     }
 
-
     public Produto () {
 
+    }
+
+    public ProdutoEnum getStatus () {
+        return status;
+
+    }
+
+    public ProdutoEnum alteraStatus (String novoStatus) {
+        this.status = ProdutoEnum.valueOf(novoStatus);
+        return status;
     }
 
 

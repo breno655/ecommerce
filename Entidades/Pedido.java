@@ -1,48 +1,50 @@
 package Entidades;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Random;
 
 public class Pedido {
 
-    
-    private Map<Integer, Float> precosTotais;
-    private Map<Integer, List<Produto>> pedidosRegistrados;
+    private Double precoTotalDoPedido;
+    private List<Produto> produtosDoPedido;
+    private int codigoDoPedido;
 
-    public Pedido () {
-        this.pedidosRegistrados = new HashMap<>();
-    }
+    Random gerador = new Random();
 
-    public void registraPedido (Cliente cliente) {
-        int numeroRegistro = 0;
-        pedidosRegistrados.put(++numeroRegistro, cliente.getCarrinhoDeCompras().getCarrinhoDeCompras());
+    public Pedido (List<Produto> produtosDoPedido) {
+        this.produtosDoPedido = produtosDoPedido;
+        this.codigoDoPedido = gerador.nextInt(10000);
     }
 
     public void calculaPrecoDoPedido () {
-        float precoTotalDaCompra = 0;
-        int indice = 0;
-        for (List<Produto> produtos : pedidosRegistrados.values()) {
-            for (Produto produto : produtos) {
-                precoTotalDaCompra += produto.getPreco();
-            }
-            precosTotais.put(++indice, precoTotalDaCompra);
+        double soma = 0.0;
+        for (Produto produto : produtosDoPedido) {
+            soma += produto.getPreco();
         }
+        precoTotalDoPedido = soma;
     }
 
-    public Map<Integer, List<Produto>> getPedidosRegistrados() {
-        return pedidosRegistrados;
+    public Double getPrecoTotalDoPedido() {
+        return precoTotalDoPedido;
     }
 
-    public void setPedidosRegistrados(Map<Integer, List<Produto>> pedidosRegistrados) {
-        this.pedidosRegistrados = pedidosRegistrados;
+    public void setPrecoTotalDoPedido(Double precoTotalDoPedido) {
+        this.precoTotalDoPedido = precoTotalDoPedido;
     }
 
-    public Map<Integer, Float> getPrecosTotais() {
-        return precosTotais;
+    public List<Produto> getProdutosDoPedido() {
+        return produtosDoPedido;
     }
 
-    public void setPrecosTotais(Map<Integer, Float> precosTotais) {
-        this.precosTotais = precosTotais;
+    public void setProdutosDoPedido(List<Produto> produtosDoPedido) {
+        this.produtosDoPedido = produtosDoPedido;
+    }
+
+    public int getCodigoDoPedido() {
+        return codigoDoPedido;
+    }
+
+    public void setCodigoDoPedido(int codigoDoPedido) {
+        this.codigoDoPedido = codigoDoPedido;
     }
 }

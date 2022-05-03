@@ -1,4 +1,4 @@
-package Exception.Enums;
+package enums;
 
 public enum ProdutoEnum {
 

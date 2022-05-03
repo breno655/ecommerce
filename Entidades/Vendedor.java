@@ -5,7 +5,7 @@ import java.util.*;
 public class Vendedor extends Usuario {
 
     private Map<Integer, Produto> produtos;
-    private List<Cliente> clientes;
+    private Map<String, Cliente> clientes;
     private float saldoVendedor;
     Random gerador = new Random();
 
@@ -19,12 +19,25 @@ public class Vendedor extends Usuario {
         this.codigo = 3;
     }
 
+    /* public void listaClientesESeusProdutos(String clienteEscolhido) {
+        for (Cliente cliente : clientes.values()) {
+            if (cliente.getNome().equals(clienteEscolhido)) {
+                for (Integer codigo : produtos.keySet()) {
+                    for (int codigoComparacao : cliente.getPedidos().getPedidosRegistrados().keySet()) {
+                        if (codigo.equals(codigoComparacao)) {
+                            System.out.println(clienteEscolhido);
+                        }
+                    }
+                }
+            }
+        }
+    } */
 
     public Produto criaProdutos(String nome, float preco, String descricao, int quantidade, Ecommerce ecommerce) {
         int codigoDeBarras = geraCodigo(ecommerce);
         if (codigoDeBarras != 0) {
             System.out.println("CODIGO DE BARRAS: " + codigoDeBarras);
-            Produto novoProduto = new Produto(nome, preco, descricao, quantidade, codigoDeBarras);
+            Produto novoProduto = new Produto(nome, preco, descricao, quantidade, codigoDeBarras, null);
             this.getProdutos().put(codigoDeBarras, novoProduto); // abaixo é adicionado os produtos na lista de produtos do vendedor pra saber que cada vendedor tem sua lista de produtos para vender.
             ecommerce.getTodosOsProdutosDoEcommerce().put(codigoDeBarras, novoProduto); // adicionar um novo produto na lista do ecommerce
             return novoProduto;
@@ -74,26 +87,16 @@ public class Vendedor extends Usuario {
         subcategoria.getProdutos().add(produto);
     }
 
-
-
     public int getCodigoVendedor() {
         return 3;
     }
 
-    public List<Cliente> getClientes() {
+    public Map<String, Cliente> getClientes() {
         return clientes;
-    }
-
-    public void setClientes(List<Cliente> clientes) {
-        this.clientes = clientes;
     }
 
     public Map<Integer, Produto> getProdutos() {
         return produtos;
-    }
-
-    public void setProdutos(Map<Integer, Produto> produtos) {
-        this.produtos = produtos;
     }
 
     public float getSaldoVendedor() {

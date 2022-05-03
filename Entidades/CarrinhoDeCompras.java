@@ -5,11 +5,11 @@ import java.util.List;
 
 public class CarrinhoDeCompras {
 
-    private List<Produto> carrinhoDeCompras;
+    private List<Produto> comprasDoCarrinho;
     private float saldoTotalDaCompra;
 
     public CarrinhoDeCompras () {
-        this.carrinhoDeCompras = new ArrayList<>();
+        this.comprasDoCarrinho = new ArrayList<>();
         this.saldoTotalDaCompra = 0;
     }
 
@@ -19,18 +19,14 @@ public class CarrinhoDeCompras {
 
     public void fazPrecoTotalDoCarrinho () {
         float precoTotalDaCompra = 0;
-        for (Produto produto : carrinhoDeCompras) {
+        for (Produto produto : comprasDoCarrinho) {
             precoTotalDaCompra += produto.getPreco();
         }
         saldoTotalDaCompra = precoTotalDaCompra;
     }
 
-    public List<Produto> getCarrinhoDeCompras() {
-        return carrinhoDeCompras;
-    }
-
-    public void setCarrinhoDeCompras(List<Produto> carrinhoDeCompras) {
-        this.carrinhoDeCompras = carrinhoDeCompras;
+    public List<Produto> getComprasDoCarrinho() {
+        return comprasDoCarrinho;
     }
 
     public float getSaldoTotalDaCompra() {
