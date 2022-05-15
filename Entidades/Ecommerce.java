@@ -48,6 +48,7 @@ public class Ecommerce {
         }
         return null;
     }
+
     public Categoria escolheCategoria(String nomeCategoria) {
         Categoria categoriaReturn = new Categoria();
         for (Categoria categoria : dicionario.values()) {
@@ -108,7 +109,7 @@ public class Ecommerce {
         }
     }
 
-    public boolean login (String loginUsuario, String senhaUsuario, int codigo,Ecommerce ecommerce) {
+    public boolean login (String loginUsuario, String senhaUsuario, int codigo, Ecommerce ecommerce) {
         if ((!ecommerce.verificaLogin(loginUsuario, senhaUsuario, codigo))) {
             System.out.println("\nUsuário e/ou senha estão errados.\nTente novamente.\n");
             return false;

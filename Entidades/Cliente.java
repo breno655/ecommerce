@@ -27,7 +27,6 @@ public class Cliente extends Usuario {
         this.precosTotais = new HashMap<>();
     }
 
-
     public void exibeProdutosDoCarrinho() {
         int totalProdutos = 0;
         for (Produto produto : this.carrinhoDeCompras.getComprasDoCarrinho()) {

@@ -2,12 +2,7 @@ package ProjectEcomerce;
 
 import java.util.Scanner;
 
-import Entidades.Administrador;
-import Entidades.Categoria;
-import Entidades.Cliente;
-import Entidades.Ecommerce;
-import Entidades.Produto;
-import Entidades.Vendedor;
+import Entidades.*;
 import enums.ProdutoEnum;
 
 public class Principal {
@@ -93,7 +88,8 @@ public class Principal {
                                 Cliente cliente = (Cliente) ecommerce.buscarUsuario(loginUsuario);
 
                                 System.out.print("\n1- Buscar Produto\n2- Explorar as categorias e produtos" +
-                                        "\n3- Ver o carrinho de compras\n4- Finalizar sua Compra\n5- Adicionar saldo em conta\n6- Deslogar\n- OpÃ§Ã£o: ");
+                                        "\n3- Ver o carrinho de compras\n4- Finalizar sua Compra\n" +
+                                        "5- Adicionar saldo em conta\n6- Histórico de pedidos\n7- Deslogar\n- OpÃ§Ã£o: ");
                                 opcaoCliente = Integer.parseInt(scanner.nextLine());
 
                                 if (opcaoCliente == 1) {
@@ -102,7 +98,7 @@ public class Principal {
                                     String produtoBuscado = scanner.nextLine();
                                     Produto produto = ecommerce.buscarProdutos(produtoBuscado);
                                     if (produto != null) {
-                                        System.out.println("\n  Produto: " + produtoBuscado.toUpperCase() + "\n" + produto.toStringCliente());
+                                        System.out.println("\n  Produto: " + produtoBuscado.toUpperCase() + "\n" + produto);
                                     } else {
                                         System.out.println("Erro! Produto nÃ£o encontrado");
                                     }
@@ -131,7 +127,7 @@ public class Principal {
                                             String opcaoAbrirDetalhes = scanner.nextLine();
                                             Produto produto = categoriaEscolhida.escolheProduto(opcaoAbrirDetalhes);
                                             if (produto != null) {
-                                                System.out.println("\n  " + opcaoAbrirDetalhes.toUpperCase() + "\n" + produto.toStringCliente());
+                                                System.out.println("\n  " + opcaoAbrirDetalhes.toUpperCase() + "\n" + produto);
                                                 System.out.print("Quer adicionar ao seu carrinho? [s/n] ");
                                                 String simOuNao = scanner.nextLine();
                                                 if (simOuNao.equals("s")) {
@@ -194,11 +190,21 @@ public class Principal {
                                         System.out.println("Saldo adicionado com sucesso!");
                                         System.out.println("Saldo atual: !" + cliente.getSaldoCliente());
                                     }
-                                }
-
+                                } else if (opcaoCliente == 6) {
+                                    System.out.println("- Histórico de pedidos - ");
+                                    for (Pedido pedido : cliente.getPedidosRegistrados().values()) {
+                                        System.out.println(pedido.getProdutosDoPedido());
+                                        for (Produto produto : pedido.getProdutosDoPedido()) {
+                                            System.out.println(produto.toString());
+                                        }
+                                    }
+                                }else if (opcaoCliente == 7) {
+                                    System.out.println("Você foi deslogado com sucesso!");
+                                    main(args);
+                                    }
                             }
 
-                            while (opcaoCliente != 6);
+                            while (opcaoCliente != 8);
 
                             break;
 
@@ -207,7 +213,7 @@ public class Principal {
                             int opcaoCrudCategoria;
                             do {
                                 System.out.println("\n- Manipulando Categorias e Subcategorias -\n1- CRIAR" +
-                                        "\n2- LISTAR\n3- REMOVER\n4- EDITAR\n5- deslogar");
+                                        "\n2- LISTAR\n3- REMOVER\n4- EDITAR\n5- DESLOGAR");
                                 opcaoCrudCategoria = Integer.parseInt(scanner.nextLine());
 
                                 if (opcaoCrudCategoria == 1) {
@@ -222,7 +228,7 @@ public class Principal {
 
                                         administrador.criaCategoria(ecommerce.getDicionario(), nomeNovaCategoria, quantidadeCategoria);
                                     }
-                                    if (categoriaOuSubcategoria == 2) {
+                                    else if (categoriaOuSubcategoria == 2) {
                                         ecommerce.exibeCategorias();
                                         System.out.print("Em qual Categoria? ");
                                         String qualCategoria = scanner.nextLine();
@@ -292,7 +298,7 @@ public class Principal {
                                         }
 
                                     }
-
+ 
                                 } else if (opcaoCrudCategoria == 4) {
                                     ecommerce.exibeCategorias();
 
@@ -304,7 +310,7 @@ public class Principal {
                                 }
 
                             } while (opcaoCrudCategoria != 5);
-                            break;
+                            main(args);
 
                         case 3:
 
@@ -313,7 +319,7 @@ public class Principal {
                                 Vendedor vendedor = (Vendedor) ecommerce.buscarUsuario(loginUsuario);
 
                                 System.out.println("\n- Manipulando Produtos -\n1- CRIAR" +
-                                        "\n2- LISTAR\n3- REMOVER\n4- EDITAR\n5- deslogar");
+                                        "\n2- LISTAR\n3- REMOVER\n4- EDITAR\n5- DESLOGAR");
                                 opcaoCrudProduto = Integer.parseInt(scanner.nextLine());
 
                                 if (opcaoCrudProduto == 1) {
@@ -436,7 +442,7 @@ public class Principal {
                                 }
 
                             } while (opcaoCrudProduto != 5);
-                            break;
+                            main(args);
 
                         case 4:
                             System.out.println("Volte sempre!");
