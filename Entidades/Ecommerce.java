@@ -16,10 +16,6 @@ public class Ecommerce {
         this.usuarios = new HashMap<>();
     }
 
-    public void listaVendedoresESeusProdutos(String vendedor) {
-
-    }
-
     public void exibeUsuarios (int tipoUsuario) {
         for (Usuario usuario : usuarios.values()) {
             if (usuario.codigo == tipoUsuario) {
@@ -49,6 +45,11 @@ public class Ecommerce {
         return null;
     }
 
+    public void removeProduto (Produto produto) {
+        String key = produto.getNome();
+        usuarios.remove(key);
+    }
+
     public Categoria escolheCategoria(String nomeCategoria) {
         Categoria categoriaReturn = new Categoria();
         for (Categoria categoria : dicionario.values()) {
@@ -60,13 +61,12 @@ public class Ecommerce {
     }
 
     public Categoria escolheSubCat(String nomeCategoria, Categoria categoria1) {
-        Categoria categoriaReturn = null;
         for (Categoria categoria : categoria1.getSubcategorias()) {
             if (categoria.getNome().equals(nomeCategoria)) {
-                categoriaReturn = categoria;
+                return categoria;
             }
         }
-        return categoriaReturn;
+        return categoria1;
     }
 
     public Produto buscarProdutos (String produtoBuscado) {
@@ -83,6 +83,14 @@ public class Ecommerce {
                 return usuario;
             }
         } return null;
+    }
+
+    public Categoria achaCategoriaAcima (Categoria categoriaFilho) {
+        for (Categoria categoriaPai : dicionario.values()) {
+            if (categoriaPai.getSubcategorias().contains(categoriaFilho)){
+                return categoriaPai;
+            }
+        } return categoriaFilho;
     }
 
     public boolean verificaLogin(String loginDoUsuario, String senhaUsuario, int codigoUsuario) {

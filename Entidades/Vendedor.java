@@ -19,20 +19,6 @@ public class Vendedor extends Usuario {
         this.codigo = 3;
     }
 
-    /* public void listaClientesESeusProdutos(String clienteEscolhido) {
-        for (Cliente cliente : clientes.values()) {
-            if (cliente.getNome().equals(clienteEscolhido)) {
-                for (Integer codigo : produtos.keySet()) {
-                    for (int codigoComparacao : cliente.getPedidos().getPedidosRegistrados().keySet()) {
-                        if (codigo.equals(codigoComparacao)) {
-                            System.out.println(clienteEscolhido);
-                        }
-                    }
-                }
-            }
-        }
-    } */
-
     public Produto criaProdutos(String nome, float preco, String descricao, int quantidade, Ecommerce ecommerce) {
         int codigoDeBarras = geraCodigo(ecommerce);
         if (codigoDeBarras != 0) {
@@ -51,16 +37,9 @@ public class Vendedor extends Usuario {
         } return 0;
     }
 
-    public void removerProdutos (Categoria categoria, String nomeProduto, Ecommerce ecommerce) {
-        categoria.getProdutos().removeIf(produto -> produto.getNome().equals(nomeProduto));
-        for (Produto produtoExcluido : ecommerce.getTodosOsProdutosDoEcommerce().values()) {
-            // remover um produto na lista do ecommerce
-            if (produtoExcluido.getNome().equals(nomeProduto)) {
-                // usando a chave do Map (codigo de barras do produto) para remover o Produto
-                Integer chave = produtoExcluido.getCodigoProduto();
-                ecommerce.getTodosOsProdutosDoEcommerce().remove(chave);
-            }
-        }
+    public void removerProdutos (Categoria categoria, Produto produto, Ecommerce ecommerce) {
+        categoria.removeProduto(produto);
+        ecommerce.removeProduto(produto);
     }
 
     public void editarProdutos (int opcaoEditar, Produto produto, String novoNome, float novoPreco, String novaDescricao) {
@@ -77,6 +56,14 @@ public class Vendedor extends Usuario {
         for (Produto produto : getProdutos().values()) {
             System.out.println("- " + produto.getNome());
         }
+    }
+
+    public Produto escolheProdVend (String nomeProd) {
+        for (Produto prod : produtos.values()) {
+            if (prod.getNome().equals(nomeProd)){
+                return prod;
+            }
+        } return null;
     }
 
     public void adicionaProdutosNaCategoria (Categoria categoria, List<Produto> produto) {

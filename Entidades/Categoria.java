@@ -44,7 +44,25 @@ public class Categoria {
     }
 
     public boolean possuiSubCats () {
-        return this.subcategorias != (null);
+        return !this.subcategorias.isEmpty();
+    }
+
+    public boolean removeCategoria (Categoria categoria) {
+        for (Categoria cat : subcategorias) {
+            if (cat.getNome().equals(categoria.getNome())) {
+                subcategorias.remove(cat);
+                return true;
+            }
+        } return false;
+    }
+
+    public boolean removeProduto (Produto produto) {
+        for (Produto prod : produtos) {
+            if (prod.getNome().equals(produto.getNome())) {
+                produtos.remove(prod);
+                return true;
+            }
+        } return false;
     }
 
     public String getNome() {

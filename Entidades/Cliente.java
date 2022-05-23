@@ -33,7 +33,15 @@ public class Cliente extends Usuario {
             System.out.println(++totalProdutos + ". " + produto.getNome());
         }
     }
-
+/*if (produto != null) {
+        System.out.println("\n  " + opcaoAbrirDetalhes.toUpperCase() + "\n" + produto);
+        System.out.print("Quer adicionar ao seu carrinho? [s/n] ");
+        String simOuNao = scanner.nextLine();
+        if (simOuNao.equals("s")) {
+            cliente.adicionarNoCarrinho(produto);
+            cliente.getCarrinhoDeCompras().fazPrecoTotalDoCarrinho();
+        }
+    }*/
     public void exibePrecoTotalDaCompra() { //trocar para metodo vindo do Pedido
         System.out.print(this.carrinhoDeCompras.getSaldoTotalDaCompra());
     }
